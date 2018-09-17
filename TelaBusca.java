@@ -26,9 +26,7 @@ public class TelaBusca extends JFrame {
 			setSize(635,525);
 			setDefaultCloseOperation(EXIT_ON_CLOSE);
 			setLayout(null);
-			
-
-			
+		
 			setLocationRelativeTo(null);
 			criarComponentes();
 			setVisible(true);
@@ -50,7 +48,7 @@ public class TelaBusca extends JFrame {
 				
 			
 					//Campos de ORIGEM
-					label = new JLabel("C骴igo: ");
+					label = new JLabel("C贸digo: ");
 					label.setBounds(10, 40, 50, 45);
 					getContentPane().add(label);	
 						
@@ -71,7 +69,7 @@ public class TelaBusca extends JFrame {
 					getContentPane().add(label);
 					
 					//Campos de DESTINO
-					label = new JLabel("C骴igo: ");
+					label = new JLabel("C贸digo: ");
 					label.setBounds(10, 70, 50, 45);
 					getContentPane().add(label);	
 						
@@ -99,13 +97,12 @@ public class TelaBusca extends JFrame {
 			textKm.setBounds(70, 110, 50, 25);
 			getContentPane().add(textKm);
 			
-			
-			
+
 							//GRID
 							painel = new JPanel();
 							getContentPane().add(painel);
 							//Colunas da Grid
-							String[] colunas = {"C骴igo Origem", "Cidade Origem", "C骴igo Origem", "Cidade Origem", "Dist鈔cia"};
+							String[] colunas = {"C贸digo Origem", "Cidade Origem", "C贸digo Origem", "Cidade Origem", "Dist芒ncia"};
 							
 							Object [][] dados = {
 								    //TODO: Dados para a Grid
