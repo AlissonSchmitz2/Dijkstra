@@ -48,7 +48,7 @@ public class TelaBusca extends JFrame {
 				
 			
 					//Campos de ORIGEM
-					label = new JLabel("CÃ³digo: ");
+					label = new JLabel("Código: ");
 					label.setBounds(10, 40, 50, 45);
 					getContentPane().add(label);	
 						
@@ -69,7 +69,7 @@ public class TelaBusca extends JFrame {
 					getContentPane().add(label);
 					
 					//Campos de DESTINO
-					label = new JLabel("CÃ³digo: ");
+					label = new JLabel("Código: ");
 					label.setBounds(10, 70, 50, 45);
 					getContentPane().add(label);	
 						
