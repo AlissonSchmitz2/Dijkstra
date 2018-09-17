@@ -102,7 +102,7 @@ public class TelaBusca extends JFrame {
 							painel = new JPanel();
 							getContentPane().add(painel);
 							//Colunas da Grid
-							String[] colunas = {"C√≥digo Origem", "Cidade Origem", "C√≥digo Origem", "Cidade Origem", "Dist√¢ncia"};
+							String[] colunas = {"CÛdigo Origem", "Cidade Origem", "CÛdigo Destino", "Cidade Destino", "Dist‚ncia"};
 							
 							Object [][] dados = {
 								    //TODO: Dados para a Grid
