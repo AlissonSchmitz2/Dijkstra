@@ -8,10 +8,10 @@ import java.awt.event.*;
 import javax.swing.*;
 
 
-	public class Teste {
+	public class TryIcon {
 	    public static JMenuItem quit;
 	    
-	    public Teste() {
+	    public TryIcon() {
 	    	
 	        PopupMenu menu = new PopupMenu("Tray Icon Menu");
 	        menu.add(new MenuItem("Configuração"));
@@ -65,7 +65,7 @@ import javax.swing.*;
 	    }
 
 	    public static void main(String[] args) {
-	        new Teste();
+	        new TryIcon();
 	    }   
 	}
 
