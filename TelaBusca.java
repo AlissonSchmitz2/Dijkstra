@@ -26,7 +26,7 @@ public class TelaBusca extends JFrame {
 			setSize(635,525);
 			setDefaultCloseOperation(EXIT_ON_CLOSE);
 			setLayout(null);
-		
+			
 			setLocationRelativeTo(null);
 			criarComponentes();
 			setVisible(true);
