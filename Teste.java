@@ -15,6 +15,14 @@ import javax.swing.*;
 	    	
 	        PopupMenu menu = new PopupMenu("Tray Icon Menu");
 	        menu.add(new MenuItem("Configuração"));
+	        menu.addActionListener(new ActionListener() {
+				
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					new TelaConfiguracao().setVisible(true);;
+				}
+			});
+	        
 	        menu.addSeparator();
 	        menu.add(new MenuItem("Visível"));
 	        menu.addActionListener(new ActionListener() {
@@ -22,7 +30,6 @@ import javax.swing.*;
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					new TelaBusca().setVisible(true);;
-					
 				}
 			});
 	        menu.addSeparator();
