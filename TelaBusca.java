@@ -131,12 +131,12 @@ public class TelaBusca extends JFrame {
 			
 			
 		}
-		
+		/*
 		public static void main(String[] args) {
 			
 			new TelaBusca();
 			
-		}
+		}*/
 
 
 }
