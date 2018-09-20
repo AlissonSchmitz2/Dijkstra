@@ -18,7 +18,7 @@ public class TelaBuscaWindow extends JFrame {
 	
 	private JPanel painel;
 	private JScrollPane scrollpane;
-		
+
 		public TelaBuscaWindow() {
 			setTitle("Dijsktra - Busca por melhor caminho");
 			setSize(635,525);
@@ -43,8 +43,7 @@ public class TelaBuscaWindow extends JFrame {
 				btnBuscar = new JButton("Buscar");
 				btnBuscar.setBounds(375, 10, 100, 25);
 				getContentPane().add(btnBuscar);
-				
-			
+
 					//Campos de ORIGEM
 					label = new JLabel("Código: ");
 					label.setBounds(10, 40, 50, 45);
@@ -95,7 +94,6 @@ public class TelaBuscaWindow extends JFrame {
 			textKm.setBounds(70, 110, 50, 25);
 			getContentPane().add(textKm);
 			
-
 							//GRID
 							painel = new JPanel();
 							getContentPane().add(painel);
@@ -113,7 +111,6 @@ public class TelaBuscaWindow extends JFrame {
 							scrollpane.setVisible(true);
 							add(scrollpane);
 							
-			
 						btnAdd = new JButton("+");
 						btnAdd.setBounds(559, 120, 50, 25);
 						getContentPane().add(btnAdd);
@@ -125,9 +122,6 @@ public class TelaBuscaWindow extends JFrame {
 						btnProcessar = new JButton("PROCESSAR");
 						btnProcessar.setBounds(500, 455, 110, 25);
 						getContentPane().add(btnProcessar);
-			
-			
-			
-		}
 
+		}
 }
