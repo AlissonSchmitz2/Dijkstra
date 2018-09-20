@@ -1,3 +1,4 @@
+package br.com.dijkstra.view;
 
 import java.awt.AWTException;
 import java.awt.MenuItem;
@@ -7,50 +8,54 @@ import java.awt.TrayIcon;
 import java.awt.event.*;
 import javax.swing.*;
 
-
 	public class TryIcon {
 	    public static JMenuItem quit;
 	    
 	    public TryIcon() {
 	    	
 	        PopupMenu menu = new PopupMenu("Tray Icon Menu");
-	        menu.add(new MenuItem("Configuração"));
-	        menu.addActionListener(new ActionListener() {
-				
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					new TelaConfiguracao().setVisible(true);;
-				}
-			});
-	        
-	        menu.addSeparator();
-	        menu.add(new MenuItem("Visível"));
-	        menu.addActionListener(new ActionListener() {
-				
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					new TelaBusca().setVisible(true);;
-				}
-			});
-	        menu.addSeparator();
-
-	        
+	        MenuItem menuConf = new MenuItem("Configuração");
+	        MenuItem menuVisi = new MenuItem("Visível");
 	        MenuItem quitItem = new MenuItem("Sair");
+	        
+	        menuConf.addActionListener(new ActionListener() {
+				
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					new TelaConfiguracaoWindow().setVisible(true);;
+				}
+			});
+	        
+	        menuVisi.addActionListener(new ActionListener() {
+				
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					new TelaBuscaWindow().setVisible(true);;
+				}
+			});
+	        
 	        quitItem.addActionListener(new ActionListener() {
 	            public void actionPerformed(ActionEvent evt) {
 	                System.exit(0);
-	            }});
+	        }});
+	        
+	        menu.add(menuConf);
+	        menu.addSeparator();
+	        menu.add(menuVisi);
+	        menu.addSeparator();
 	        menu.add(quitItem);
 	        
-	        // onde estiver esta classe.
-	        ImageIcon icon = new ImageIcon("icon.png");
+	        ImageIcon icon = new ImageIcon("br/com/dijkstra/icons/icon.gif");
 	        TrayIcon ti = new TrayIcon(icon.getImage(), "Dijsktra", menu);
 
 	        // Ação para clique com botão esquerdo.
 	        ti.addActionListener(new ActionListener() {
 	            public void actionPerformed(ActionEvent e) {
 	                JOptionPane.showMessageDialog(null, 
-	                    "JDIC Tray Icon API Test!", "About",
+	                    "Alisson Schmitz\n" + 
+	                    "Giovane Santiago\n" +
+	                    "Vinnicius Mazzuchetti\n" +
+	                    "Wilian Hendler\n", "Desenvolvimento",
 	                    JOptionPane.INFORMATION_MESSAGE);
 	            }
 	        });

@@ -1,21 +1,21 @@
-import java.awt.event.ActionEvent;
+package br.com.dijkstra.view;
 
-import javax.sound.midi.Soundbank;
-import javax.swing.AbstractAction;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
-public class TelaConfiguracao extends JFrame {
+public class TelaConfiguracaoWindow extends JFrame {
+
+	private static final long serialVersionUID = -6412279950219631238L;
 
 	private JTextField txtPasta, txtSucesso, txtErro;
 	private JButton btnSalvar;
 	private JCheckBox ckbAleatorio;
 	private JLabel saida;
 
-	public TelaConfiguracao() {
+	public TelaConfiguracaoWindow() {
 		
 		
 		setTitle("Configuração");
@@ -71,20 +71,10 @@ public class TelaConfiguracao extends JFrame {
 		saida = new JLabel("Rota automática ");
 		saida.setBounds(100, 110, 200, 25);
 		getContentPane().add(saida);
-
-		btnSalvar = new JButton(new AbstractAction("SALVAR") {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-
-			}
-		});
+		
+		btnSalvar = new JButton("SALVAR");
 		btnSalvar.setBounds(80, 140, 100, 25);
 		getContentPane().add(btnSalvar);
 	}
 
-	public static void main(String[] args) {
-		
-		new TelaConfiguracao();
-	}
 }

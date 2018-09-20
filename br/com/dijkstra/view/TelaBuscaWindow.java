@@ -1,5 +1,4 @@
-
-import java.awt.BorderLayout;
+package br.com.dijkstra.view;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -9,7 +8,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 
-public class TelaBusca extends JFrame {
+public class TelaBuscaWindow extends JFrame {
 		
 	private static final long serialVersionUID = 8509005971460712336L;
 	private JTextField textBusca, textCodOrigem, textCidadeOrigem, textCodDestino, 
@@ -18,10 +17,9 @@ public class TelaBusca extends JFrame {
 	private JLabel label;
 	
 	private JPanel painel;
-	private JTable tabela;
 	private JScrollPane scrollpane;
 		
-		public TelaBusca() {
+		public TelaBuscaWindow() {
 			setTitle("Dijsktra - Busca por melhor caminho");
 			setSize(635,525);
 			setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -131,12 +129,5 @@ public class TelaBusca extends JFrame {
 			
 			
 		}
-		/*
-		public static void main(String[] args) {
-			
-			new TelaBusca();
-			
-		}*/
-
 
 }
