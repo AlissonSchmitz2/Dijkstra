@@ -1,5 +1,6 @@
 package br.com.dijkstra.view;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JFrame;
@@ -75,6 +76,7 @@ public class TelaConfiguracaoWindow extends JFrame {
 		btnSalvar = new JButton("SALVAR");
 		btnSalvar.setBounds(80, 140, 100, 25);
 		getContentPane().add(btnSalvar);
+		
 	}
 
 }
