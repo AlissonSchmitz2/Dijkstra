@@ -22,12 +22,13 @@ public class TelaBuscaWindow extends JFrame {
 		public TelaBuscaWindow() {
 			setTitle("Dijsktra - Busca por melhor caminho");
 			setSize(635,525);
-			setDefaultCloseOperation(EXIT_ON_CLOSE);
+			setResizable(false);
 			setLayout(null);
 			
 			setLocationRelativeTo(null);
 			criarComponentes();
 			setVisible(true);
+			setDefaultCloseOperation(EXIT_ON_CLOSE);
 		}
 		
 		public void criarComponentes() {

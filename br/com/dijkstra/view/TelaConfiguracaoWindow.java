@@ -1,6 +1,5 @@
 package br.com.dijkstra.view;
 
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JFrame;
@@ -20,22 +19,22 @@ public class TelaConfiguracaoWindow extends JFrame {
 		
 		
 		setTitle("Configuração");
-		setSize(635, 525);
-		setDefaultCloseOperation(EXIT_ON_CLOSE);
-		setLayout(null);
-
-		setLocationRelativeTo(null);
-		criarComponentes();
-		setVisible(true);
-	}
-
-	public void criarComponentes() {
-		
-		
+	
 		setSize(300, 220);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setLayout(null);
+		
+		setResizable(false);
+		setMaximumSize(null);
+		setLocationRelativeTo(null);
+		criarComponentes();
+		setVisible(true);
+		setDefaultCloseOperation(EXIT_ON_CLOSE);
+	
+	}
 
+	public void criarComponentes() {
+	
 		saida = new JLabel("Pasta: ");
 		saida.setBounds(15, 10, 200, 25);
 		getContentPane().add(saida);
