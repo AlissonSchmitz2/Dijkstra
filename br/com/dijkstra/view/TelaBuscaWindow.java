@@ -1,12 +1,18 @@
 package br.com.dijkstra.view;
 
+import java.awt.Color;
+import java.awt.Image;
+import java.awt.Toolkit;
+
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 public class TelaBuscaWindow extends JFrame {
 		
@@ -24,11 +30,16 @@ public class TelaBuscaWindow extends JFrame {
 			setSize(635,525);
 			setResizable(false);
 			setLayout(null);
+			//getContentPane().setBackground(new Color(255,179,179));
 			
 			setLocationRelativeTo(null);
 			criarComponentes();
 			setVisible(true);
-			setDefaultCloseOperation(EXIT_ON_CLOSE);
+			//setDefaultCloseOperation(EXIT_ON_CLOSE);
+
+			Image imagemTitulo = Toolkit.getDefaultToolkit().getImage("br/com/dijkstra/icons/busca.png");
+			this.setIconImage(imagemTitulo);
+
 		}
 		
 		public void criarComponentes() {
@@ -125,4 +136,19 @@ public class TelaBuscaWindow extends JFrame {
 						getContentPane().add(btnProcessar);
 
 		}
+		
+		private String fileChooser() {
+			
+			JFileChooser chooser = new JFileChooser();
+		    FileNameExtensionFilter filter = new FileNameExtensionFilter("*.txt", "txt");
+		    chooser.setFileFilter(filter);
+		    int returnVal = chooser.showOpenDialog(null);
+
+		    if (returnVal == JFileChooser.APPROVE_OPTION) {
+		      return chooser.getSelectedFile().getPath().toString();
+		    }
+
+		    return "Selecione o arquivo";
+		}
+		
 }

@@ -1,27 +1,32 @@
 package br.com.dijkstra.view;
 
+import java.awt.Image;
+import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+
+import javax.swing.AbstractAction;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 public class TelaConfiguracaoWindow extends JFrame {
 
 	private static final long serialVersionUID = -6412279950219631238L;
 
 	private JTextField txtPasta, txtSucesso, txtErro;
-	private JButton btnSalvar;
+	private JButton btnSalvar, btnSeleciona;
 	private JCheckBox ckbAleatorio;
 	private JLabel saida;
 
 	public TelaConfiguracaoWindow() {
 		
-		
 		setTitle("Configuração");
 	
 		setSize(300, 220);
-		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setLayout(null);
 		
 		setResizable(false);
@@ -29,7 +34,10 @@ public class TelaConfiguracaoWindow extends JFrame {
 		setLocationRelativeTo(null);
 		criarComponentes();
 		setVisible(true);
-		setDefaultCloseOperation(EXIT_ON_CLOSE);
+		//setDefaultCloseOperation(EXIT_ON_CLOSE);
+		
+		Image imagemTitulo = Toolkit.getDefaultToolkit().getImage("br/com/dijkstra/icons/config2.png");
+		this.setIconImage(imagemTitulo);
 	
 	}
 
@@ -39,10 +47,23 @@ public class TelaConfiguracaoWindow extends JFrame {
 		saida.setBounds(15, 10, 200, 25);
 		getContentPane().add(saida);
 
+		btnSeleciona = new JButton();
+		btnSeleciona.setBounds(260, 10, 20, 25);
+		getContentPane().add(btnSeleciona);
+		
 		txtPasta = new JTextField();
-		txtPasta.setBounds(80, 10, 200, 25);
+		txtPasta.setBounds(80, 10, 180, 25);
 		txtPasta.setToolTipText("Pasta: ");
 		getContentPane().add(txtPasta);
+		
+		btnSeleciona.setAction(new AbstractAction("...") {
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				txtPasta.setText(fileChooser());
+			}
+		});
 
 		saida = new JLabel("Sucesso: ");
 		saida.setBounds(15, 45, 200, 25);
@@ -76,6 +97,20 @@ public class TelaConfiguracaoWindow extends JFrame {
 		btnSalvar.setBounds(80, 140, 100, 25);
 		getContentPane().add(btnSalvar);
 		
+	}
+	
+	private String fileChooser() {
+		
+		JFileChooser chooser = new JFileChooser();
+	    FileNameExtensionFilter filter = new FileNameExtensionFilter("*.txt", "txt");
+	    chooser.setFileFilter(filter);
+	    int returnVal = chooser.showOpenDialog(null);
+
+	    if (returnVal == JFileChooser.APPROVE_OPTION) {
+	      return chooser.getSelectedFile().getPath().toString();
+	    }
+
+	    return "Selecione o arquivo";
 	}
 
 }
