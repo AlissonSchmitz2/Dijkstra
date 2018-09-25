@@ -1,5 +1,6 @@
 package br.com.dijkstra.view;
 
+import java.awt.Color;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
@@ -72,8 +73,10 @@ public class TelaConfiguracaoWindow extends JFrame {
 		txtSucesso = new JTextField();
 		txtSucesso.setBounds(80, 45, 100, 25);
 		txtSucesso.setToolTipText("Sucesso: ");
+		txtSucesso.setEditable(false);
+		txtSucesso.setBackground(Color.white);
 		getContentPane().add(txtSucesso);
-
+		
 		saida = new JLabel("Erro: ");
 		saida.setBounds(15, 80, 200, 25);
 		getContentPane().add(saida);
@@ -81,6 +84,8 @@ public class TelaConfiguracaoWindow extends JFrame {
 		txtErro = new JTextField();
 		txtErro.setBounds(80, 80, 100, 25);
 		txtErro.setToolTipText("Erro: ");
+		txtErro.setEditable(false);
+		txtErro.setBackground(Color.white);
 		getContentPane().add(txtErro);
 
 		// CheckBox
