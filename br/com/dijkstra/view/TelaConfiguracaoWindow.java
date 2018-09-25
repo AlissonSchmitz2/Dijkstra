@@ -19,7 +19,7 @@ public class TelaConfiguracaoWindow extends JFrame {
 	private static final long serialVersionUID = -6412279950219631238L;
 
 	private JTextField txtPasta, txtSucesso, txtErro;
-	private JButton btnSalvar, btnSeleciona;
+	private JButton btnSalvar, btnSelecionaPasta, btnSelecionaErro, btnSelecionaSucesso;
 	private JCheckBox ckbAleatorio;
 	private JLabel saida;
 
@@ -48,16 +48,17 @@ public class TelaConfiguracaoWindow extends JFrame {
 		saida.setBounds(15, 10, 200, 25);
 		getContentPane().add(saida);
 
-		btnSeleciona = new JButton();
-		btnSeleciona.setBounds(260, 10, 20, 25);
-		getContentPane().add(btnSeleciona);
+		btnSelecionaPasta = new JButton();
+		btnSelecionaPasta.setBounds(262, 10, 20, 25);
+		btnSelecionaPasta.setToolTipText("Clique aqui para selecionar o caminho");
+		getContentPane().add(btnSelecionaPasta);
 		
 		txtPasta = new JTextField();
 		txtPasta.setBounds(80, 10, 180, 25);
 		txtPasta.setToolTipText("Pasta: ");
 		getContentPane().add(txtPasta);
 		
-		btnSeleciona.setAction(new AbstractAction("...") {
+		btnSelecionaPasta.setAction(new AbstractAction("...") {
 			private static final long serialVersionUID = 1L;
 
 			@Override
@@ -69,25 +70,50 @@ public class TelaConfiguracaoWindow extends JFrame {
 		saida = new JLabel("Sucesso: ");
 		saida.setBounds(15, 45, 200, 25);
 		getContentPane().add(saida);
+		
+		btnSelecionaSucesso = new JButton();
+		btnSelecionaSucesso.setBounds(183, 45, 20, 25);
+		btnSelecionaSucesso.setToolTipText("Clique aqui para selecionar o caminho");
+		getContentPane().add(btnSelecionaSucesso);
 
 		txtSucesso = new JTextField();
 		txtSucesso.setBounds(80, 45, 100, 25);
 		txtSucesso.setToolTipText("Sucesso: ");
-		txtSucesso.setEditable(false);
 		txtSucesso.setBackground(Color.white);
 		getContentPane().add(txtSucesso);
+		
+		btnSelecionaSucesso.setAction(new AbstractAction("...") {
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				txtSucesso.setText(fileChooser());
+			}
+		});
 		
 		saida = new JLabel("Erro: ");
 		saida.setBounds(15, 80, 200, 25);
 		getContentPane().add(saida);
+		
+		btnSelecionaErro = new JButton();
+		btnSelecionaErro.setBounds(183, 80, 20, 25);
+		getContentPane().add(btnSelecionaErro);
 
 		txtErro = new JTextField();
 		txtErro.setBounds(80, 80, 100, 25);
 		txtErro.setToolTipText("Erro: ");
-		txtErro.setEditable(false);
 		txtErro.setBackground(Color.white);
 		getContentPane().add(txtErro);
 
+		btnSelecionaErro.setAction(new AbstractAction("...") {
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				txtErro.setText(fileChooser());
+			}
+		});
+		
 		// CheckBox
 		ckbAleatorio = new JCheckBox();
 		ckbAleatorio.setBounds(80, 110, 20, 25);
