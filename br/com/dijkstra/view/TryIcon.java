@@ -45,7 +45,7 @@ import javax.swing.*;
 	        menu.addSeparator();
 	        menu.add(quitItem);
 	        
-	        ImageIcon icon = new ImageIcon("br/com/dijkstra/icons/icon.gif");
+	        ImageIcon icon = new ImageIcon("br/com/dijkstra/icons/mundo.gif");
 	        TrayIcon ti = new TrayIcon(icon.getImage(), "Dijsktra", menu);
 
 	        // Ação para clique com botão esquerdo.
