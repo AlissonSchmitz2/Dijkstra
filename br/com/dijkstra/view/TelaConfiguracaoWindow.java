@@ -11,8 +11,12 @@ import javax.swing.JCheckBox;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.filechooser.FileNameExtensionFilter;
+
+import br.com.dijkstra.lib.ManipularArquivo;
+import br.com.dijkstra.model.Config;
 
 public class TelaConfiguracaoWindow extends JFrame {
 
@@ -22,6 +26,8 @@ public class TelaConfiguracaoWindow extends JFrame {
 	private JButton btnSalvar, btnSelecionaPasta, btnSelecionaErro, btnSelecionaSucesso;
 	private JCheckBox ckbAleatorio;
 	private JLabel saida;
+	private Config config;
+	private ManipularArquivo Ma = new ManipularArquivo();
 
 	public TelaConfiguracaoWindow() {
 		
@@ -124,9 +130,19 @@ public class TelaConfiguracaoWindow extends JFrame {
 		saida.setBounds(100, 110, 200, 25);
 		getContentPane().add(saida);
 		
-		btnSalvar = new JButton("SALVAR");
+		btnSalvar = new JButton();
 		btnSalvar.setBounds(80, 140, 100, 25);
 		getContentPane().add(btnSalvar);
+		btnSalvar.setAction(new AbstractAction("SALVAR") {
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				salvarDados();
+				Ma.inserirDado(config);
+				JOptionPane.showMessageDialog(null, "Configuração salva com sucesso!");
+			}
+		});
 		
 	}
 	
@@ -136,12 +152,20 @@ public class TelaConfiguracaoWindow extends JFrame {
 	    FileNameExtensionFilter filter = new FileNameExtensionFilter("*.txt", "txt");
 	    chooser.setFileFilter(filter);
 	    int returnVal = chooser.showOpenDialog(null);
-
+	    
 	    if (returnVal == JFileChooser.APPROVE_OPTION) {
 	      return chooser.getSelectedFile().getPath().toString();
 	    }
-
+	    
 	    return "Selecione o arquivo";
 	}
 
+	private void salvarDados(){
+		
+		config.setCaminhoPasta(txtPasta.getText());
+		config.setCaminhoSucesso(txtSucesso.getText());
+		config.setCaminhoErro(txtErro.getText());
+		config.setCheck(ckbAleatorio.isSelected());
+	}
+	
 }
