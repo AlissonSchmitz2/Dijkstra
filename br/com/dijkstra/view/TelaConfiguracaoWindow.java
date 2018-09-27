@@ -29,7 +29,7 @@ public class TelaConfiguracaoWindow extends JFrame {
 	
 	private Config config;
 	private ManipularArquivo aM = new ManipularArquivo();
-
+	
 	public TelaConfiguracaoWindow() {
 		setTitle("Configuração");
 		this.config = new Config();
@@ -144,6 +144,7 @@ public class TelaConfiguracaoWindow extends JFrame {
 				salvarDados();
 				aM.inserirDado(config);
 				JOptionPane.showMessageDialog(null, "Configuração salva com sucesso!");
+				setVisible(false);
 			}
 		});
 		

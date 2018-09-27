@@ -4,11 +4,10 @@ public class Config {
 	private String caminhoPasta, caminhoSucesso, CaminhoErro;
 	private Boolean check;
 	private Integer id;
-	
-	public Config() {
-		
-	}
 
+	public Config() {
+	}
+	
 	public Config(String caminhoPasta, String caminhoSucesso, String caminhoErro, Boolean check) {
 		super();
 		this.caminhoPasta = caminhoPasta;
@@ -16,6 +15,20 @@ public class Config {
 		this.CaminhoErro = caminhoErro;
 		this.check = check;
 	}
+	
+	
+
+	public Integer getId() {
+		return id;
+	}
+
+
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+
 
 	public String getCaminhoPasta() {
 		return caminhoPasta;

@@ -2,11 +2,11 @@ package br.com.dijkstra.lib;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.io.Reader;
 
 import br.com.dijkstra.model.Config;
 
@@ -19,89 +19,63 @@ public class ManipularArquivo {
 	private BufferedReader lerArq;
 
 	public ManipularArquivo() {
-		criarArquivosDados();
+		criarArquivo();
 	}
 	
-	private void criarArquivosDados() {
-		//Testa a existência do arquivo de dados "usuarios.txt", caso o mesmo não exista, cria o diretório
+	private void criarArquivo() {
+		//Testa a existência do arquivo de dados "config.txt", caso o mesmo não exista, cria o diretório
 		File diretorio = new File(System.getProperty("user.home") + "\\dijkstra\\data");
-		if (!diretorio.exists()) {
-		   diretorio.mkdirs();
-		}
-	}
-	
-	public void inserirDado(Config config) {
-		//config.setId(pegarProximoId("Config"));
-		
-		
-		String novosDados = criarStringDados(config);
-
-		inserirDadosNoArquivo("config", novosDados);
+			
+			if (!diretorio.exists()) {
+			   diretorio.mkdirs();
+			}
 	}
 	
 	private String criarStringDados(Config config) {
 		return config.getCaminhoPasta() + SEPARATOR + config.getCaminhoSucesso() + SEPARATOR + config.getCaminhoErro();
 	}
 	
-	/*
-	 * HELPERS
-	 */
-	//Método auxiliar responsável por gravar dos dados no arquivo
- 	private void inserirDadosNoArquivo(String area, String dados) {
+	public void inserirDado(Config config) {
 		
- 
+		String novosDados = criarStringDados(config);
+
+		inserirDadosNoArquivo("config", novosDados);
+	}
+	
+	private void inserirDadosNoArquivo(String area, String dados) {
+
  		try {
 			FileWriter arq = new FileWriter(pegarDestinoArquivo(area), true);
 			PrintWriter gravarArq = new PrintWriter(arq);
-			gravarArq.println(dados);
-			arq.close();
+
+			removerDadosDoArquivo(area);
+		     gravarArq.println(dados);
+			 arq.close();
+
 		} catch (IOException e) {
 			System.err.printf("Não foi possível gravar o arquivo: %s.\n", e.getMessage());
 		}
  		
 	}
- 	//estou terminando ainda NÃO MEXER
- 	/*private boolean configExist(String area) {
- 		
- 		FileReader arq = new FileReader(pegarDestinoArquivo(area));
- 		lerArq = new BufferedReader(arq);
-		String linha = lerArq.readLine();
-		
-		if(linha != null) {
-			return true;
-		}
-		gravarArq.println(dados);
-		linha = lerArq.readLine();
- 		
- 		return false;
- 	}*/
- 	
- 	/*private Integer pegarProximoId(String area) {
-		try {
+	
+	private void removerDadosDoArquivo(String area) {
+ 		try {
 			FileReader arq = new FileReader(pegarDestinoArquivo(area));
 			lerArq = new BufferedReader(arq);
-			String linha = lerArq.readLine();
-			Integer maiorId = 0;
+			StringBuffer inputBuffer = new StringBuffer();
 			
-			while (linha != null) {
-				String[] atributo = linha.split(SEPARATOR);
-				
-				Integer currentId = Integer.parseInt(atributo[0]);
-				if (currentId.compareTo(maiorId) == 1) {
-					maiorId = currentId;
-				}
-				
-				linha = lerArq.readLine();
-	        }
+	        String inputStr = inputBuffer.toString();
 	        
 	        lerArq.close();
-	        
-	        return maiorId + 1;
+			
+	        FileOutputStream fileOut = new FileOutputStream(pegarDestinoArquivo(area));
+	        fileOut.write(inputStr.getBytes());
+	        fileOut.close();
 		} catch (IOException e) {
-			return 1;
+			System.err.printf("Erro na abertura do arquivo: %s.\n", e.getMessage());
 		}
-	}
- 	*/
+ 	}
+	
  	//Retorna o caminho para o arquivo de dados
  		private String pegarDestinoArquivo(String area) {
  			switch (area) {

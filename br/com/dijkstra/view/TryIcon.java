@@ -6,17 +6,21 @@ import java.awt.PopupMenu;
 import java.awt.SystemTray;
 import java.awt.TrayIcon;
 import java.awt.event.*;
+import java.io.File;
+
 import javax.swing.*;
 
 	public class TryIcon {
 	    public static JMenuItem quit;
-	    
+
 	    public TryIcon() {
 	    	
-	        PopupMenu menu = new PopupMenu("Tray Icon Menu");
+	        PopupMenu menu = new PopupMenu("Menu");
 	        MenuItem menuConf = new MenuItem("Configuração");
 	        MenuItem menuVisi = new MenuItem("Visível");
 	        MenuItem quitItem = new MenuItem("Sair");
+	        
+	        
 	        
 	        menuConf.addActionListener(new ActionListener() {
 				
@@ -70,7 +74,15 @@ import javax.swing.*;
 	    }
 
 	    public static void main(String[] args) {
-	        new TryIcon();
+	    	File diretorio = new File(System.getProperty("user.home") + "\\dijkstra\\data");
+	    	
+	    	if(!diretorio.exists()) {
+	    		JOptionPane.showMessageDialog(null, "Configurações dos arquivos não encontradas, informe os caminhos para salvar os arquivos do Dijkstra.");
+	    		new TelaConfiguracaoWindow().setVisible(true);;
+	    	}else {
+	    		new TryIcon();
+	    	}
+	    	
 	    }   
 	}
 
