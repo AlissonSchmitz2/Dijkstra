@@ -2,6 +2,7 @@ package br.com.dijkstra.lib;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -29,6 +30,7 @@ public class ManipularArquivo {
 	}
 	
 	public void inserirDado(Config config) {
+		//config.setId(pegarProximoId("Config"));
 		
 		String novosDados = criarStringDados(config);
 
@@ -55,10 +57,36 @@ public class ManipularArquivo {
 		
 	}
  	
+ 	/*private Integer pegarProximoId(String area) {
+		try {
+			FileReader arq = new FileReader(pegarDestinoArquivo(area));
+			lerArq = new BufferedReader(arq);
+			String linha = lerArq.readLine();
+			Integer maiorId = 0;
+			
+			while (linha != null) {
+				String[] atributo = linha.split(SEPARATOR);
+				
+				Integer currentId = Integer.parseInt(atributo[0]);
+				if (currentId.compareTo(maiorId) == 1) {
+					maiorId = currentId;
+				}
+				
+				linha = lerArq.readLine();
+	        }
+	        
+	        lerArq.close();
+	        
+	        return maiorId + 1;
+		} catch (IOException e) {
+			return 1;
+		}
+	}
+ 	*/
  	//Retorna o caminho para o arquivo de dados
  		private String pegarDestinoArquivo(String area) {
  			switch (area) {
- 				case "usuarios":
+ 				case "config":
  					return new File(CONFIG_PATH).getAbsolutePath();
  			}
  			

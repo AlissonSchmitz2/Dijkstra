@@ -26,13 +26,14 @@ public class TelaConfiguracaoWindow extends JFrame {
 	private JButton btnSalvar, btnSelecionaPasta, btnSelecionaErro, btnSelecionaSucesso;
 	private JCheckBox ckbAleatorio;
 	private JLabel saida;
+	
 	private Config config;
-	private ManipularArquivo Ma = new ManipularArquivo();
+	private ManipularArquivo aM = new ManipularArquivo();
 
 	public TelaConfiguracaoWindow() {
-		
 		setTitle("Configuração");
-	
+		this.config = new Config();
+		
 		setSize(300, 220);
 		setLayout(null);
 		
@@ -133,13 +134,15 @@ public class TelaConfiguracaoWindow extends JFrame {
 		btnSalvar = new JButton();
 		btnSalvar.setBounds(80, 140, 100, 25);
 		getContentPane().add(btnSalvar);
+
+
 		btnSalvar.setAction(new AbstractAction("SALVAR") {
 			private static final long serialVersionUID = 1L;
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				salvarDados();
-				Ma.inserirDado(config);
+				aM.inserirDado(config);
 				JOptionPane.showMessageDialog(null, "Configuração salva com sucesso!");
 			}
 		});

@@ -3,8 +3,20 @@ package br.com.dijkstra.model;
 public class Config {
 	private String caminhoPasta, caminhoSucesso, CaminhoErro;
 	private Boolean check;
+	private Integer id;
 	
-	
+	public Config() {
+		
+	}
+
+	public Config(String caminhoPasta, String caminhoSucesso, String caminhoErro, Boolean check) {
+		super();
+		this.caminhoPasta = caminhoPasta;
+		this.caminhoSucesso = caminhoSucesso;
+		this.CaminhoErro = caminhoErro;
+		this.check = check;
+	}
+
 	public String getCaminhoPasta() {
 		return caminhoPasta;
 	}
@@ -31,7 +43,7 @@ public class Config {
 	
 	
 	public void setCaminhoErro(String caminhoErro) {
-		CaminhoErro = caminhoErro;
+		this.CaminhoErro = caminhoErro;
 	}
 	
 	
