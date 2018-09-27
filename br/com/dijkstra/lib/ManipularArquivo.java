@@ -6,6 +6,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.io.Reader;
 
 import br.com.dijkstra.model.Config;
 
@@ -32,6 +33,7 @@ public class ManipularArquivo {
 	public void inserirDado(Config config) {
 		//config.setId(pegarProximoId("Config"));
 		
+		
 		String novosDados = criarStringDados(config);
 
 		inserirDadosNoArquivo("config", novosDados);
@@ -46,7 +48,9 @@ public class ManipularArquivo {
 	 */
 	//Método auxiliar responsável por gravar dos dados no arquivo
  	private void inserirDadosNoArquivo(String area, String dados) {
-		try {
+		
+ 
+ 		try {
 			FileWriter arq = new FileWriter(pegarDestinoArquivo(area), true);
 			PrintWriter gravarArq = new PrintWriter(arq);
 			gravarArq.println(dados);
@@ -54,8 +58,23 @@ public class ManipularArquivo {
 		} catch (IOException e) {
 			System.err.printf("Não foi possível gravar o arquivo: %s.\n", e.getMessage());
 		}
-		
+ 		
 	}
+ 	//estou terminando ainda NÃO MEXER
+ 	/*private boolean configExist(String area) {
+ 		
+ 		FileReader arq = new FileReader(pegarDestinoArquivo(area));
+ 		lerArq = new BufferedReader(arq);
+		String linha = lerArq.readLine();
+		
+		if(linha != null) {
+			return true;
+		}
+		gravarArq.println(dados);
+		linha = lerArq.readLine();
+ 		
+ 		return false;
+ 	}*/
  	
  	/*private Integer pegarProximoId(String area) {
 		try {
