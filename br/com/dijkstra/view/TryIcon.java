@@ -15,6 +15,7 @@ import javax.swing.*;
 
 	    public TryIcon() {
 	    	
+	    	
 	        PopupMenu menu = new PopupMenu("Menu");
 	        MenuItem menuConf = new MenuItem("Configuração");
 	        MenuItem menuVisi = new MenuItem("Visível");
@@ -55,22 +56,27 @@ import javax.swing.*;
 	        // Ação para clique com botão esquerdo.
 	        ti.addActionListener(new ActionListener() {
 	            public void actionPerformed(ActionEvent e) {
+	        ti.displayMessage("My Title", "My Message", TrayIcon.MessageType.INFO);
 	                JOptionPane.showMessageDialog(null, 
 	                    "Alisson Schmitz\n" + 
 	                    "Giovane Santiago\n" +
 	                    "Vinnicius Mazzuchetti\n" +
 	                    "Wilian Hendler\n", "Desenvolvimento",
-	                    JOptionPane.INFORMATION_MESSAGE);
+	                    JOptionPane.NO_OPTION);
 	            }
+
 	        });
-	               
+	        
 	        SystemTray tray = SystemTray.getSystemTray();
+	        
 	        try {
 				tray.add(ti);
 			} catch (AWTException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
+	        
+	        
 	    }
 
 	    public static void main(String[] args) {
