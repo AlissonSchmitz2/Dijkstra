@@ -20,9 +20,7 @@ import javax.swing.*;
 	        MenuItem menuConf = new MenuItem("Configuração");
 	        MenuItem menuVisi = new MenuItem("Visível");
 	        MenuItem quitItem = new MenuItem("Sair");
-	        
-	        
-	        
+
 	        menuConf.addActionListener(new ActionListener() {
 				
 				@Override
@@ -43,7 +41,7 @@ import javax.swing.*;
 	            public void actionPerformed(ActionEvent evt) {
 	                System.exit(0);
 	        }});
-	        
+	       
 	        menu.add(menuConf);
 	        menu.addSeparator();
 	        menu.add(menuVisi);
@@ -52,42 +50,43 @@ import javax.swing.*;
 	        
 	        ImageIcon icon = new ImageIcon("br/com/dijkstra/icons/mundo.gif");
 	        TrayIcon ti = new TrayIcon(icon.getImage(), "Dijsktra", menu);
-
+	        
 	        // Ação para clique com botão esquerdo.
 	        ti.addActionListener(new ActionListener() {
 	            public void actionPerformed(ActionEvent e) {
-	        ti.displayMessage("My Title", "My Message", TrayIcon.MessageType.INFO);
-	                JOptionPane.showMessageDialog(null, 
+	            JOptionPane.showMessageDialog(null, 
 	                    "Alisson Schmitz\n" + 
 	                    "Giovane Santiago\n" +
 	                    "Vinnicius Mazzuchetti\n" +
 	                    "Wilian Hendler\n", "Desenvolvimento",
-	                    JOptionPane.NO_OPTION);
+	                    JOptionPane.NO_OPTION);  
 	            }
-
-	        });
+	            });
+	        
 	        
 	        SystemTray tray = SystemTray.getSystemTray();
 	        
 	        try {
 				tray.add(ti);
 			} catch (AWTException e1) {
-				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
 	        
-	        
+	        ti.displayMessage("Informações", "Clique com o botão direito do mouse neste ícone para alterar as configurações salvas.", TrayIcon.MessageType.INFO);
 	    }
-
-	    public static void main(String[] args) {
+	    
+	    public static void main(String[] args){
 	    	File diretorio = new File(System.getProperty("user.home") + "\\dijkstra\\data");
 	    	
 	    	if(!diretorio.exists()) {
 	    		JOptionPane.showMessageDialog(null, "Configurações dos arquivos não encontradas, informe os caminhos para salvar os arquivos do Dijkstra.");
 	    		new TelaConfiguracaoWindow().setVisible(true);;
+	    		new TryIcon();
 	    	}else {
 	    		new TryIcon();
 	    	}
+	    	
+	    	
 	    	
 	    }   
 	}
