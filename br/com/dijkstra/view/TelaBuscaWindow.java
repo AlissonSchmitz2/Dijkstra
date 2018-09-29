@@ -189,6 +189,10 @@ public class TelaBuscaWindow extends JFrame {
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					
+					if(listCM.isEmpty()) {
+						JOptionPane.showMessageDialog(rootPane, "Não há nada para ser salvo ou nenhuma mudança foi realizada no arquivo!", "", JOptionPane.ERROR_MESSAGE, null);					
+					} else {
+					
 					String nomeArquivo;
 					
 					//Salva no mesmo arquivo oque foi adicionado após a importação.
@@ -226,10 +230,11 @@ public class TelaBuscaWindow extends JFrame {
 							
 							if(limpar == 0) {
 								((CaminhoManualTableModel) tableModel).limpar();
+								}
 							}
 						}
-				    }
 					
+					}
 				}
 			});
 			btnSalvar.setBounds(385, 455, 110, 25);

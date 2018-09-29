@@ -3,6 +3,7 @@ package br.com.dijkstra.view;
 import java.awt.Color;
 import java.awt.Image;
 import java.awt.Toolkit;
+import java.awt.TrayIcon;
 import java.awt.event.ActionEvent;
 
 import javax.swing.AbstractAction;
@@ -144,6 +145,7 @@ public class TelaConfiguracaoWindow extends JFrame {
 				salvarDados();
 				aM.inserirDado(config);
 				JOptionPane.showMessageDialog(null, "Configuração salva com sucesso!");
+				setVisible(false);
 			}
 		});
 		

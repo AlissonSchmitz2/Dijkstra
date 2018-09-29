@@ -1,4 +1,4 @@
-package br.com.dijkstra.model;
+	package br.com.dijkstra.model;
 
 public class Config {
 	private String caminhoPasta, caminhoSucesso, CaminhoErro;
@@ -15,6 +15,13 @@ public class Config {
 		this.caminhoSucesso = caminhoSucesso;
 		this.CaminhoErro = caminhoErro;
 		this.check = check;
+	}
+	
+	public Integer getId() {
+		return id;
+	}
+ 	public void setId(Integer id) {
+		this.id = id;
 	}
 
 	public String getCaminhoPasta() {

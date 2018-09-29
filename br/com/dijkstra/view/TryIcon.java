@@ -6,6 +6,7 @@ import java.awt.PopupMenu;
 import java.awt.SystemTray;
 import java.awt.TrayIcon;
 import java.awt.event.*;
+import java.io.File;
 import javax.swing.*;
 
 	public class TryIcon {
@@ -13,7 +14,7 @@ import javax.swing.*;
 	    
 	    public TryIcon() {
 	    	
-	        PopupMenu menu = new PopupMenu("Tray Icon Menu");
+	    	PopupMenu menu = new PopupMenu("Menu");
 	        MenuItem menuConf = new MenuItem("Configuração");
 	        MenuItem menuVisi = new MenuItem("Visível");
 	        MenuItem quitItem = new MenuItem("Sair");
@@ -46,7 +47,7 @@ import javax.swing.*;
 	        menu.add(quitItem);
 	        
 	        ImageIcon icon = new ImageIcon("br/com/dijkstra/icons/mundo.gif");
-	        TrayIcon ti = new TrayIcon(icon.getImage(), "Dijsktra", menu);
+	        TrayIcon ti = new TrayIcon(icon.getImage(), "Dijsktra", menu); 
 
 	        // Ação para clique com botão esquerdo.
 	        ti.addActionListener(new ActionListener() {
@@ -56,7 +57,7 @@ import javax.swing.*;
 	                    "Giovane Santiago\n" +
 	                    "Vinnicius Mazzuchetti\n" +
 	                    "Wilian Hendler\n", "Desenvolvimento",
-	                    JOptionPane.INFORMATION_MESSAGE);
+	                    JOptionPane.NO_OPTION);
 	            }
 	        });
 	               
@@ -64,13 +65,22 @@ import javax.swing.*;
 	        try {
 				tray.add(ti);
 			} catch (AWTException e1) {
-				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
-	    }
-
-	    public static void main(String[] args) {
-	        new TryIcon();
-	    }   
+	        
+	        ti.displayMessage("Informações", "Clique com o botão direito do mouse neste ícone para alterar as configurações salvas.", TrayIcon.MessageType.INFO);
+	    }  
+	    
+    public static void main(String[] args){
+    	File diretorio = new File(System.getProperty("user.home") + "\\dijkstra\\data");
+    	
+    	if(!diretorio.exists()) {
+    		JOptionPane.showMessageDialog(null, "Configurações dos arquivos não encontradas, informe os caminhos para salvar os arquivos do Dijkstra.");
+    		new TelaConfiguracaoWindow().setVisible(true);;
+    		new TryIcon();
+    	}else {
+    		new TryIcon();
+    	}   
+	}
 	}
 
