@@ -27,8 +27,7 @@ public class Config {
 	public String getCaminhoPasta() {
 		return caminhoPasta;
 	}
-	
-	
+
 	public void setCaminhoPasta(String caminhoPasta) {
 		this.caminhoPasta = caminhoPasta;
 	}
@@ -43,11 +42,9 @@ public class Config {
 		this.caminhoSucesso = caminhoSucesso;
 	}
 	
-	
 	public String getCaminhoErro() {
 		return CaminhoErro;
 	}
-	
 	
 	public void setCaminhoErro(String caminhoErro) {
 		this.CaminhoErro = caminhoErro;

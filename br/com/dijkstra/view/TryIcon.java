@@ -9,8 +9,13 @@ import java.awt.event.*;
 import java.io.File;
 import javax.swing.*;
 
+import br.com.dijkstra.lib.ManipularArquivo;
+import br.com.dijkstra.model.Config;
+
 	public class TryIcon {
 	    public static JMenuItem quit;
+	    private Config config = new Config();
+	    private ManipularArquivo mA = new ManipularArquivo();
 	    
 	    public TryIcon() {
 	    	
@@ -23,7 +28,14 @@ import javax.swing.*;
 				
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					new TelaConfiguracaoWindow().setVisible(true);;
+					TelaConfiguracaoWindow telaConfig = new TelaConfiguracaoWindow();
+					telaConfig.setVisible(true);
+					
+					if(telaConfig.isVisible()) {
+					menuConf.setEnabled(false);
+					}else {
+					menuConf.setEnabled(true);
+					}
 				}
 			});
 	        
@@ -69,6 +81,15 @@ import javax.swing.*;
 			}
 	        
 	        ti.displayMessage("Informações", "Clique com o botão direito do mouse neste ícone para alterar as configurações salvas.", TrayIcon.MessageType.INFO);
+	        
+	        //Colocar o caminho do config.check, if de teste.
+	        boolean i=false;
+	        if(i) {
+	        	menuVisi.setEnabled(false);
+	        }else {
+	        	menuVisi.setEnabled(true);
+	        }
+	        
 	    }  
 	    
     public static void main(String[] args){

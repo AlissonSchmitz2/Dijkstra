@@ -37,7 +37,7 @@ public class ManipularArquivo {
 	}
 	
 	private String criarStringDados(Config config) {
-		return config.getCaminhoPasta() + SEPARATOR + config.getCaminhoSucesso() + SEPARATOR + config.getCaminhoErro();
+		return config.getCaminhoPasta() + SEPARATOR + config.getCaminhoSucesso() + SEPARATOR + config.getCaminhoErro() + SEPARATOR + config.getCheck();
 	}
 	
 	private String criarStringDados(CaminhoManual CM) {
