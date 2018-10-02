@@ -17,6 +17,8 @@ import br.com.dijkstra.model.Config;
 	    private Config config = new Config();
 	    private ManipularArquivo mA = new ManipularArquivo();
 	    
+	    
+	    
 	    public TryIcon() {
 	    	
 	    	PopupMenu menu = new PopupMenu("Menu");
@@ -29,13 +31,29 @@ import br.com.dijkstra.model.Config;
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					TelaConfiguracaoWindow telaConfig = new TelaConfiguracaoWindow();
-					telaConfig.setVisible(true);
 					
-					if(telaConfig.isVisible()) {
-					menuConf.setEnabled(false);
-					}else {
-					menuConf.setEnabled(true);
+					
+					//telaConfig.setVisible(true);
+					
+					
+					telaConfig.addWindowListener(new WindowAdapter() {
+						public void windowClosing(WindowEvent evt) {
+							if (JOptionPane.showConfirmDialog(null,"Deseja sair")==JOptionPane.OK_OPTION){
+							//FECHA A JANELA
+							}
+							//METODO JANELA ABERTA
+							
+							
 					}
+					});
+					
+					/*if(!telaConfig.isActive()) {
+						System.out.println("Aberta");
+					//menuConf.setEnabled(false);
+					}else if(telaConfig.clo){
+						System.out.println("Fechada");
+					//menuConf.setEnabled(true);
+					}*/
 				}
 			});
 	        
