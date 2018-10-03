@@ -3,7 +3,6 @@ package br.com.dijkstra.view;
 import java.awt.Color;
 import java.awt.Image;
 import java.awt.Toolkit;
-import java.awt.TrayIcon;
 import java.awt.event.ActionEvent;
 
 import javax.swing.AbstractAction;
@@ -29,7 +28,7 @@ public class TelaConfiguracaoWindow extends JFrame {
 	private JLabel saida;
 	
 	private Config config;
-	private ManipularArquivo aM = new ManipularArquivo();
+	private ManipularArquivo aM;
 
 	public TelaConfiguracaoWindow() {
 		setTitle("Configuração");
@@ -143,6 +142,7 @@ public class TelaConfiguracaoWindow extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				salvarDados();
+				aM = new ManipularArquivo();
 				aM.inserirDado(config);
 				JOptionPane.showMessageDialog(null, "Configuração salva com sucesso!");
 				setVisible(false);
@@ -171,6 +171,12 @@ public class TelaConfiguracaoWindow extends JFrame {
 		config.setCaminhoSucesso(txtSucesso.getText());
 		config.setCaminhoErro(txtErro.getText());
 		config.setCheck(ckbAleatorio.isSelected());
+	}
+	
+	@Override
+	public void setFocusable(boolean focusable) {	
+		super.setFocusable(focusable);
+		txtPasta.requestFocus();
 	}
 	
 }

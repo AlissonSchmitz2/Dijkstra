@@ -1,11 +1,8 @@
 package br.com.dijkstra.view;
 
-import java.awt.Color;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.ArrayList;
 
 import javax.swing.AbstractAction;
@@ -61,8 +58,6 @@ public class TelaBuscaWindow extends JFrame {
 			getContentPane().add(label);
 			
 			textBusca = new JTextField();
-			textBusca.setEditable(false);
-			textBusca.setBackground(Color.WHITE);
 			textBusca.setBounds(70, 10, 300, 25);
 			getContentPane().add(textBusca);
 
@@ -280,6 +275,12 @@ public class TelaBuscaWindow extends JFrame {
 			textCodDestino.setText("");
 			textCodOrigem.setText("");
 			textKm.setText("");
+		}
+		
+		@Override
+		public void setFocusable(boolean focusable) {	
+			super.setFocusable(focusable);
+			textBusca.requestFocus();
 		}
 		
 }

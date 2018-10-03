@@ -8,18 +8,17 @@ import java.awt.TrayIcon;
 import java.awt.event.*;
 import java.io.File;
 import javax.swing.*;
-
 import br.com.dijkstra.lib.ManipularArquivo;
 import br.com.dijkstra.model.Config;
 
-	public class TryIcon {
+	public class Principal {
 	    public static JMenuItem quit;
-	    private Config config = new Config();
-	    private ManipularArquivo mA = new ManipularArquivo();
+	    private Config config;
+	    private ManipularArquivo mA;
+	    TelaConfiguracaoWindow telaConfig = null;
+	    TelaBuscaWindow telaBusca = null;
 	    
-	    
-	    
-	    public TryIcon() {
+	    public Principal() {
 	    	
 	    	PopupMenu menu = new PopupMenu("Menu");
 	        MenuItem menuConf = new MenuItem("Configuração");
@@ -30,40 +29,59 @@ import br.com.dijkstra.model.Config;
 				
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					TelaConfiguracaoWindow telaConfig = new TelaConfiguracaoWindow();
-					
-					
-					//telaConfig.setVisible(true);
-					
-					
-					telaConfig.addWindowListener(new WindowAdapter() {
-						public void windowClosing(WindowEvent evt) {
-							if (JOptionPane.showConfirmDialog(null,"Deseja sair")==JOptionPane.OK_OPTION){
-							//FECHA A JANELA
+					//System.out.println("FORA");
+					if (telaConfig == null) {
+						telaConfig = new TelaConfiguracaoWindow();
+						telaConfig.addWindowListener(new WindowAdapter() {
+							public void windowClosing(WindowEvent evt) {
+								telaConfig = null;
+								//System.out.println("IF");
+								menuVisi.setEnabled(true);
 							}
-							//METODO JANELA ABERTA
-							
-							
+						});	
+						
 					}
-					});
+					else {		
+						//System.out.println("ELSE");
+						telaConfig.requestFocus();
+						telaConfig.setFocusable(true);
+						telaConfig.setExtendedState(JFrame.NORMAL);
+						if(!telaConfig.isVisible()) {
+							//System.out.println("IF 2");
+							telaConfig = new TelaConfiguracaoWindow();
+						}
+					}
+					menuVisi.setEnabled(false);
 					
-					/*if(!telaConfig.isActive()) {
-						System.out.println("Aberta");
-					//menuConf.setEnabled(false);
-					}else if(telaConfig.clo){
-						System.out.println("Fechada");
-					//menuConf.setEnabled(true);
-					}*/
 				}
+
 			});
+	        
+	        //TODO: Ao salvar na janela de configuração, o menu visivel não é habilitado
 	        
 	        menuVisi.addActionListener(new ActionListener() {
 				
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					new TelaBuscaWindow().setVisible(true);;
+					if (telaBusca == null) {
+						telaBusca = new TelaBuscaWindow();
+						telaBusca.addWindowListener(new WindowAdapter() {
+							public void windowClosing(WindowEvent evt) {
+								telaBusca = null;
+								menuConf.setEnabled(true);  
+							}
+						});	
+						
+					}else {
+						telaBusca.requestFocus();
+						telaBusca.setFocusable(true);
+						telaBusca.setExtendedState(JFrame.NORMAL);
+					}
+					menuConf.setEnabled(false);  
 				}
+				
 			});
+	     
 	        
 	        quitItem.addActionListener(new ActionListener() {
 	            public void actionPerformed(ActionEvent evt) {
@@ -101,25 +119,25 @@ import br.com.dijkstra.model.Config;
 	        ti.displayMessage("Informações", "Clique com o botão direito do mouse neste ícone para alterar as configurações salvas.", TrayIcon.MessageType.INFO);
 	        
 	        //Colocar o caminho do config.check, if de teste.
-	        boolean i=false;
+	        /*boolean i=false;
 	        if(i) {
 	        	menuVisi.setEnabled(false);
 	        }else {
 	        	menuVisi.setEnabled(true);
-	        }
-	        
+	        }*/
+	        diretorioVerificar();
 	    }  
 	    
+	    private void diretorioVerificar() {
+	    	File diretorio = new File(System.getProperty("user.home") + "\\dijkstra\\data");
+	    	
+	    	if(!diretorio.exists()) {
+	    		JOptionPane.showMessageDialog(null, "Configurações dos arquivos não encontradas!\nFavor realizar a configuração na tela a seguir.");
+	    		telaConfig = new TelaConfiguracaoWindow();
+	    	}
+	    }
+	    
     public static void main(String[] args){
-    	File diretorio = new File(System.getProperty("user.home") + "\\dijkstra\\data");
-    	
-    	if(!diretorio.exists()) {
-    		JOptionPane.showMessageDialog(null, "Configurações dos arquivos não encontradas, informe os caminhos para salvar os arquivos do Dijkstra.");
-    		new TelaConfiguracaoWindow().setVisible(true);;
-    		new TryIcon();
-    	}else {
-    		new TryIcon();
-    	}   
+    	new Principal();
 	}
-	}
-
+}
