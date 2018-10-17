@@ -1,16 +1,21 @@
 package br.com.dijkstra.lib;
 
 import java.io.BufferedReader;
+
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 
 import br.com.dijkstra.model.CaminhoManual;
 import br.com.dijkstra.model.Config;
+import br.com.dijkstra.model.DadosTxt;
 
 public class ManipularArquivo {
 
@@ -22,6 +27,8 @@ public class ManipularArquivo {
 	private boolean importouTXT = false;
 	
 	private BufferedReader lerArq;
+	private DadosTxt dadosTxt = new DadosTxt();
+	private Config config = new Config();
 
 	public ManipularArquivo() {
 		criarArquivo();
@@ -34,14 +41,24 @@ public class ManipularArquivo {
 			if (!diretorio.exists()) {
 			   diretorio.mkdirs();
 			}
+			
+			if(config.getCheck() == null) {
+				diretorio.deleteOnExit();
+			}
 	}
 	
 	private String criarStringDados(Config config) {
-		return config.getCaminhoPasta() + SEPARATOR + config.getCaminhoSucesso() + SEPARATOR + config.getCaminhoErro() + SEPARATOR + config.getCheck();
+		return config.getCaminhoPasta() + SEPARATOR +
+			   config.getCaminhoSucesso() + SEPARATOR + 
+			   config.getCaminhoErro() + SEPARATOR + 
+			   config.getCheck();
 	}
 	
 	private String criarStringDados(CaminhoManual CM) {
-		return CM.getCodigoOrigem() + SEPARATOR + CM.getCidadeOrigem() + SEPARATOR + CM.getCodigoDestino() + SEPARATOR + CM.getCidadeDestino() + SEPARATOR +
+		return CM.getCodigoOrigem() + SEPARATOR + 
+			   CM.getCidadeOrigem() + SEPARATOR +
+			   CM.getCodigoDestino() + SEPARATOR +
+			   CM.getCidadeDestino() + SEPARATOR +
 			   CM.getDistanciaKM();
 	}
 	
@@ -146,7 +163,7 @@ public class ManipularArquivo {
 		
 		return null;		
 	}
-	
+		
 	private CaminhoManual criarCaminhoManualApartirAtributos(String[] atributos) {
 		CaminhoManual CM = new CaminhoManual();
 		
@@ -157,6 +174,42 @@ public class ManipularArquivo {
 		CM.setDistanciaKM(Float.parseFloat(atributos[4]));
 		
 		return CM;
+	}
+	
+	public Config recuperarDadosConfig(String destinoTXT){
+		
+		try {			
+		FileReader arq = new FileReader(destinoTXT);
+		lerArq = new BufferedReader(arq);
+		String linha = lerArq.readLine();
+		
+		while (linha != null) {						
+			
+			String[] atributo = linha.split(SEPARATOR);
+			
+			config = criarConfigManualApartirAtributos(atributo);
+			
+			linha = lerArq.readLine();
+		}
+		
+		return config;
+		
+		} catch(IOException e) {
+			System.err.printf("Erro na abertura do arquivo: %s.\n", e.getMessage());
+		}
+		
+		return null;		
+	}
+		
+	private Config criarConfigManualApartirAtributos(String[] atributos) {
+		Config config = new Config();
+		
+		config.setCaminhoPasta(atributos[0]);
+		config.setCaminhoSucesso(atributos[1]);
+		config.setCaminhoErro(atributos[2]);
+		config.setCheck(atributos[3].equals("false") ? false : true);
+		
+		return config;
 	}
 	
 	//Verifica se o nome do arquivo a ser salvo já existe no diretório.
@@ -192,6 +245,33 @@ public class ManipularArquivo {
 			System.err.printf("Erro na abertura do arquivo: %s.\n", e.getMessage());
 		}
  	}
+		
+	public DadosTxt buscarDadosTxt(String caminho) throws IOException {
+		String linha;
+		InputStream is = new FileInputStream(caminho);
+		InputStreamReader isr = new InputStreamReader(is);
+		BufferedReader br = new BufferedReader(isr);
+		linha = br.readLine();
+			while(linha != null) {
+				String[] atributo = linha.split(SEPARATOR);
+				dadosTxt = criarDados(atributo);
+				linha =	br.readLine();
+			}
+
+		br.close();
+		
+		System.out.println(dadosTxt.getDados());
+		
+		return dadosTxt;
+	}
+	
+	private DadosTxt criarDados(String[] dados) {
+		DadosTxt dadosTxt = new DadosTxt();
+		
+		dadosTxt.setDados(dados[0]);
+		
+		return dadosTxt;
+	}
 	
  	//Retorna o caminho para o arquivo de dados
  	private String pegarDestinoArquivo(String area, String nomeArquivoRotas) {

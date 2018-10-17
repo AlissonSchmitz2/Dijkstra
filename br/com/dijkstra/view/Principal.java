@@ -17,48 +17,85 @@ import br.com.dijkstra.model.Config;
 	    private ManipularArquivo mA;
 	    TelaConfiguracaoWindow telaConfig = null;
 	    TelaBuscaWindow telaBusca = null;
+	    File diretorio = new File(System.getProperty("user.home") + "\\dijkstra\\data");
 	    
 	    public Principal() {
+	    	
+			if (diretorio.exists()) {
+				buscarDadosConfig();
+			}
 	    	
 	    	PopupMenu menu = new PopupMenu("Menu");
 	        MenuItem menuConf = new MenuItem("Configuração");
 	        MenuItem menuVisi = new MenuItem("Visível");
 	        MenuItem quitItem = new MenuItem("Sair");
+
+	        //Verifica a configuração previamente estabelecida no txt para habilitar ou não o menu visível.
+	        if(config == null) {
+	        	System.out.println("Opa, config nulo cara ");
+	        }else if(config.getCheck() && config != null) {
+	        	menuVisi.setEnabled(false);
+	        }
 	        
+	        //MENU CONFIGURAÇÃO
 	        menuConf.addActionListener(new ActionListener() {
 				
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					//System.out.println("FORA");
+					menuVisi.setEnabled(false);
+					
 					if (telaConfig == null) {
 						telaConfig = new TelaConfiguracaoWindow();
-						telaConfig.addWindowListener(new WindowAdapter() {
-							public void windowClosing(WindowEvent evt) {
-								telaConfig = null;
-								//System.out.println("IF");
-								menuVisi.setEnabled(true);
-							}
-						});	
-						
 					}
 					else {		
-						//System.out.println("ELSE");
 						telaConfig.requestFocus();
 						telaConfig.setFocusable(true);
 						telaConfig.setExtendedState(JFrame.NORMAL);
 						if(!telaConfig.isVisible()) {
-							//System.out.println("IF 2");
-							telaConfig = new TelaConfiguracaoWindow();
+							telaConfig.setVisible(true);
 						}
 					}
 					menuVisi.setEnabled(false);
+					
+					 //Verifica se a tela de configuração foi fechada utilizando o 'X'.
+					telaConfig.addWindowListener(new WindowAdapter() {
+						public void windowClosing(WindowEvent evt) {
+							
+							if(config == null) {
+								menuVisi.setEnabled(true);
+								return;
+							}else
+							
+							if(config.getCheck()) {
+								menuVisi.setEnabled(false);
+							} else {
+								menuVisi.setEnabled(true);
+							}
+						}
+					});
+					
+					//Verifica se a tela de configuração foi fechada utilizando o comando 'Dispose'.
+					telaConfig.addWindowListener(new WindowAdapter() {
+						public void windowClosed(WindowEvent evt) {
+							
+							if(config == null) {
+								menuVisi.setEnabled(true);
+								return;
+							}else
+							
+							if(config.getCheck()) {
+								menuVisi.setEnabled(false);
+							} else {
+								menuVisi.setEnabled(true);
+							}
+						}
+					});	
 					
 				}
 
 			});
 	        
-	        //TODO: Ao salvar na janela de configuração, o menu visivel não é habilitado
-	        
+	        //MENU VISÍVEL
 	        menuVisi.addActionListener(new ActionListener() {
 				
 				@Override
@@ -118,15 +155,8 @@ import br.com.dijkstra.model.Config;
 	        
 	        ti.displayMessage("Informações", "Clique com o botão direito do mouse neste ícone para alterar as configurações salvas.", TrayIcon.MessageType.INFO);
 	        
-	        //Colocar o caminho do config.check, if de teste.
-	        /*boolean i=false;
-	        if(i) {
-	        	menuVisi.setEnabled(false);
-	        }else {
-	        	menuVisi.setEnabled(true);
-	        }*/
 	        diretorioVerificar();
-	    }  
+	    }
 	    
 	    private void diretorioVerificar() {
 	    	File diretorio = new File(System.getProperty("user.home") + "\\dijkstra\\data");
@@ -137,7 +167,18 @@ import br.com.dijkstra.model.Config;
 	    	}
 	    }
 	    
+	    private void buscarDadosConfig() {
+			mA = new ManipularArquivo();
+			try{
+				config = mA.recuperarDadosConfig(System.getProperty("user.home") + "\\dijkstra\\data\\config.txt");
+			}catch(Exception e) {
+				e.printStackTrace();
+			}
+		}
+	    
     public static void main(String[] args){
     	new Principal();
+    	
+    	new ThreadPrincipal();
 	}
 }

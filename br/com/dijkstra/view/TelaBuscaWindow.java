@@ -3,6 +3,8 @@ package br.com.dijkstra.view;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 
 import javax.swing.AbstractAction;
@@ -34,6 +36,22 @@ public class TelaBuscaWindow extends JFrame {
 	private ArrayList<CaminhoManual> listCM = new ArrayList<>();
 	ManipularArquivo mA = new ManipularArquivo();
 	private boolean importouTXT = false;
+	
+	KeyAdapter acao = new KeyAdapter() {
+		@Override
+		public void keyPressed(java.awt.event.KeyEvent e) {
+			if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+				
+				if(textBusca.isFocusOwner()) {
+					btnBuscar.doClick();
+				} else if( textCidadeDestino.isFocusOwner() || textCodDestino.isFocusOwner() || 
+						  textCidadeOrigem.isFocusOwner() || textCodOrigem.isFocusOwner() || 
+						  textKm.isFocusOwner() ) {
+					btnAdd.doClick();
+				}
+			}
+		}
+	};
 
 		public TelaBuscaWindow() {
 			setTitle("Dijsktra - Busca por melhor caminho");
@@ -60,6 +78,7 @@ public class TelaBuscaWindow extends JFrame {
 			textBusca = new JTextField();
 			textBusca.setBounds(70, 10, 300, 25);
 			getContentPane().add(textBusca);
+			textBusca.addKeyListener(acao);
 
 			//Campos de ORIGEM
 			label = new JLabel("Código: ");
@@ -69,6 +88,7 @@ public class TelaBuscaWindow extends JFrame {
 			textCodOrigem = new JTextField();
 			textCodOrigem.setBounds(70, 50, 70, 25);
 			getContentPane().add(textCodOrigem);
+			textCodOrigem.addKeyListener(acao);
 					
 			label = new JLabel("Cidade: ");
 			label.setBounds(160, 40, 50, 45);
@@ -77,6 +97,7 @@ public class TelaBuscaWindow extends JFrame {
 			textCidadeOrigem = new JTextField();
 			textCidadeOrigem.setBounds(220, 50, 150, 25);
 			getContentPane().add(textCidadeOrigem);
+			textCidadeOrigem.addKeyListener(acao);
 			
 			label = new JLabel("(ORIGEM)");
 			label.setBounds(375, 40, 100, 45);
@@ -85,11 +106,12 @@ public class TelaBuscaWindow extends JFrame {
 			//Campos de DESTINO
 			label = new JLabel("Código: ");
 			label.setBounds(10, 70, 50, 45);
-			getContentPane().add(label);	
+			getContentPane().add(label);
 						
 			textCodDestino = new JTextField();
 			textCodDestino.setBounds(70, 80, 70, 25);
 			getContentPane().add(textCodDestino);
+			textCodDestino.addKeyListener(acao);
 					
 			label = new JLabel("Cidade: ");
 			label.setBounds(160, 70, 50, 45);
@@ -98,6 +120,7 @@ public class TelaBuscaWindow extends JFrame {
 			textCidadeDestino = new JTextField();
 			textCidadeDestino.setBounds(220, 80, 150, 25);
 			getContentPane().add(textCidadeDestino);
+			textCidadeDestino.addKeyListener(acao);
 			
 			label = new JLabel("(DESTINO)");
 			label.setBounds(375, 70, 100, 45);
@@ -109,7 +132,8 @@ public class TelaBuscaWindow extends JFrame {
 			
 			textKm = new JTextField();
 			textKm.setBounds(70, 110, 50, 25);
-			getContentPane().add(textKm);			
+			getContentPane().add(textKm);	
+			textKm.addKeyListener(acao);
 							
 			//Tabela de dados.				
 			JTable tabela = new JTable(); 
@@ -143,6 +167,7 @@ public class TelaBuscaWindow extends JFrame {
 					((CaminhoManualTableModel) tableModel).addRow(CM);	
 					
 					limparCamposAdicao();
+					textCodOrigem.requestFocus();
 					
 					} else {
 						JOptionPane.showMessageDialog(null, "" + validacao);
@@ -152,31 +177,44 @@ public class TelaBuscaWindow extends JFrame {
 			
 			btnAdd.setBounds(559, 120, 50, 25);
 			getContentPane().add(btnAdd);
+			btnAdd.addKeyListener(acao);
 			
 			btnBuscar = new JButton(new AbstractAction("Buscar") {
 				private static final long serialVersionUID = 1L;
 
 				@Override
 				public void actionPerformed(ActionEvent e) {					
-					textBusca.setText(fileChooser());					
 					
-					if(textBusca.getText().equals("Selecione o arquivo") == false) {
-					importouTXT = true;
-					listCM.clear();
-					ArrayList<CaminhoManual> dados = new ArrayList<>();
-						
-					dados = mA.recuperarDados(textBusca.getText());
-					((CaminhoManualTableModel) tableModel).limpar();
-						
-					for(int i = 0; i < dados.size(); i++) {							
-						((CaminhoManualTableModel) tableModel).addRow(dados.get(i));
+					if("".equals(textBusca.getText())) {					
+					textBusca.setText(fileChooser());
 					}
+					
+					try {
+						
+						if(textBusca.getText().equals("") == false) {
+							importouTXT = true;
+							listCM.clear();
+							ArrayList<CaminhoManual> dados = new ArrayList<>();
+								
+							dados = mA.recuperarDados(textBusca.getText());
+							((CaminhoManualTableModel) tableModel).limpar();
+								
+							for(int i = 0; i < dados.size(); i++) {							
+								((CaminhoManualTableModel) tableModel).addRow(dados.get(i));
+							}
+							
+						} 
+						
+					} catch (Exception e1) {
+						
+						JOptionPane.showMessageDialog(rootPane, "O arquivo não foi encontrado ou é inválido.", "", JOptionPane.ERROR_MESSAGE, null);
 					}
-					 
+					
 				}
 			});
 			btnBuscar.setBounds(375, 10, 100, 25);
 			getContentPane().add(btnBuscar);
+			btnBuscar.addKeyListener(acao);
 						
 			btnSalvar = new JButton(new AbstractAction("SALVAR") {
 				private static final long serialVersionUID = 1L;
@@ -252,7 +290,7 @@ public class TelaBuscaWindow extends JFrame {
 		      return chooser.getSelectedFile().getPath().toString();
 		    }
 
-		    return "Selecione o arquivo";
+		    return "";
 		}
 		
 		private String validacoesAdicao() {
@@ -264,9 +302,27 @@ public class TelaBuscaWindow extends JFrame {
 				return "O código de destino não pode ser igual ao código de origem!";
 			} else if(textCidadeDestino.getText().equals(textCidadeOrigem.getText())) {
 				return "O nome da cidade de destino não pode ser igual ao da cidade de origem!";
+			} else if(verificarLetras(textCodOrigem.getText()) || verificarLetras(textCodDestino.getText()) || verificarLetras(textKm.getText())) {
+				return "Os campos 'Código' e 'KM' não podem conter letras!";
+			} else if(textKm.getText().contains(",") || textCodDestino.getText().contains(",") || textCodOrigem.getText().contains(",")) {
+				return "Os campos 'Código' e 'KM' não podem conter vírgulas";
+			} else if(textCodDestino.getText().contains(".") || textCodOrigem.getText().contains(".")) {
+				return "Os campos 'Código' não podem conter pontos";
 			}
 			
 			return "";
+		}
+		
+		//Verifica se uma determinada string possui letras.
+		private boolean verificarLetras(String texto) {
+			
+			for(int i = 0; i < texto.length(); i++) {
+				if(Character.isLetter(texto.charAt(i))) {
+					return true;
+				}
+			}
+			
+			return false;
 		}
 		
 		private void limparCamposAdicao() {

@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
+import java.io.File;
 
 import javax.swing.AbstractAction;
 import javax.swing.JButton;
@@ -13,8 +14,6 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
-import javax.swing.filechooser.FileNameExtensionFilter;
-
 import br.com.dijkstra.lib.ManipularArquivo;
 import br.com.dijkstra.model.Config;
 
@@ -32,6 +31,7 @@ public class TelaConfiguracaoWindow extends JFrame {
 
 	public TelaConfiguracaoWindow() {
 		setTitle("Configuração");
+		
 		this.config = new Config();
 		
 		setSize(300, 220);
@@ -42,11 +42,22 @@ public class TelaConfiguracaoWindow extends JFrame {
 		setLocationRelativeTo(null);
 		criarComponentes();
 		setVisible(true);
-		//setDefaultCloseOperation(EXIT_ON_CLOSE);
+		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		
 		Image imagemTitulo = Toolkit.getDefaultToolkit().getImage("br/com/dijkstra/icons/config2.png");
 		this.setIconImage(imagemTitulo);
-	
+		
+		File diretorio = new File(System.getProperty("user.home") + "\\dijkstra\\data");
+		
+		if(diretorio.exists()) {
+			aM = new ManipularArquivo();
+			try{
+				config = aM.recuperarDadosConfig(System.getProperty("user.home") + "\\dijkstra\\data\\config.txt");
+			}catch(Exception e) {
+				e.printStackTrace();
+			}
+			setarValores(config);
+		}
 	}
 
 	public void criarComponentes() {
@@ -70,7 +81,7 @@ public class TelaConfiguracaoWindow extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				txtPasta.setText(fileChooser());
+				txtPasta.setText(DirectoryChooser());
 			}
 		});
 
@@ -94,7 +105,7 @@ public class TelaConfiguracaoWindow extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				txtSucesso.setText(fileChooser());
+				txtSucesso.setText(DirectoryChooser());
 			}
 		});
 		
@@ -117,7 +128,7 @@ public class TelaConfiguracaoWindow extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				txtErro.setText(fileChooser());
+				txtErro.setText(DirectoryChooser());
 			}
 		});
 		
@@ -141,28 +152,41 @@ public class TelaConfiguracaoWindow extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
+				
+				if(validarCampos()) {
+					JOptionPane.showMessageDialog(rootPane, "Preencha todos os campos!", null, JOptionPane.ERROR_MESSAGE, null);
+					return;
+				}
+				
+				if(diretorioVerificar()) {
+					JOptionPane.showMessageDialog(rootPane, "Um ou mais diretórios informados são inválidos!", null, JOptionPane.ERROR_MESSAGE, null);
+					return;
+				}
+				
 				salvarDados();
 				aM = new ManipularArquivo();
 				aM.inserirDado(config);
+				new ThreadPrincipal();
 				JOptionPane.showMessageDialog(null, "Configuração salva com sucesso!");
-				setVisible(false);
+				dispose();
 			}
 		});
 		
 	}
 	
-	private String fileChooser() {
+	private String DirectoryChooser() {
 		
 		JFileChooser chooser = new JFileChooser();
-	    FileNameExtensionFilter filter = new FileNameExtensionFilter("*.txt", "txt");
-	    chooser.setFileFilter(filter);
-	    int returnVal = chooser.showOpenDialog(null);
+		
+		// restringe a amostra a diretórios apenas
+		chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+		
+		int returnVal = chooser.showOpenDialog(null);
+		if (returnVal == JFileChooser.APPROVE_OPTION) {
+		      return chooser.getSelectedFile().getPath().toString();
+		    } 
 	    
-	    if (returnVal == JFileChooser.APPROVE_OPTION) {
-	      return chooser.getSelectedFile().getPath().toString();
-	    }
-	    
-	    return "Selecione o arquivo";
+	    return "Selecione o diretório";
 	}
 
 	private void salvarDados(){
@@ -173,10 +197,55 @@ public class TelaConfiguracaoWindow extends JFrame {
 		config.setCheck(ckbAleatorio.isSelected());
 	}
 	
+	public void setarValores(Config config) {
+		txtPasta.setText(config.getCaminhoPasta());
+		txtSucesso.setText(config.getCaminhoSucesso());
+		txtErro.setText(config.getCaminhoErro());
+		ckbAleatorio.setSelected(config.getCheck());
+	}
+	
 	@Override
 	public void setFocusable(boolean focusable) {	
 		super.setFocusable(focusable);
 		txtPasta.requestFocus();
 	}
 	
+	public boolean validarCampos(){
+		if(txtPasta.getText().isEmpty()
+		|| txtErro.getText().isEmpty()
+		|| txtSucesso.getText().isEmpty()){
+			return true;
+		}
+		
+		return false;
+		
+	}
+	
+	public boolean validarDiretorios(){
+		
+		if(txtPasta.getText().isEmpty()
+		|| txtErro.getText().isEmpty()
+		|| txtSucesso.getText().isEmpty()){
+			return true;
+		}
+		
+		return false;
+		
+	}
+	
+	 private boolean diretorioVerificar() {
+
+		 File diretorio1 = new File(txtPasta.getText());
+		 File diretorio2 = new File(txtErro.getText());
+		 File diretorio3 = new File(txtSucesso.getText());
+	    	
+	    	if(!diretorio1.exists() ||
+	    	   !diretorio2.exists() ||
+	    	   !diretorio3.exists()) {
+	    		return true;
+	    	}
+	    	
+	    	return false;
+	    }
+	 
 }
