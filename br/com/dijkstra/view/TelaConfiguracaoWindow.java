@@ -67,7 +67,9 @@ public class TelaConfiguracaoWindow extends JFrame {
 				File diretorio = new File(System.getProperty("user.home") + "\\dijkstra\\data\\config.txt");
 				if(!diretorio.exists()) {
 				//TODO: REABRIR JANELA
-				//setVisible(true);
+					setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+				} else {
+					setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 				}
 			}
 		});

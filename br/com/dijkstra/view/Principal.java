@@ -55,42 +55,15 @@ import br.com.dijkstra.model.Config;
 							telaConfig.setVisible(true);
 						}
 					}
-					menuVisi.setEnabled(false);
 					
-					 //Verifica se a tela de configuração foi fechada utilizando o 'X'.
-					telaConfig.addWindowListener(new WindowAdapter() {
-						public void windowClosing(WindowEvent evt) {
-							if(config == null) {
-								menuVisi.setEnabled(true);
-								return;
-							}else
-							
-							if(config.getCheck()) {
-								menuVisi.setEnabled(false);
-							} else {
-								menuVisi.setEnabled(true);
-							}
-							
-						}
-					});
-					
-					//Verifica se a tela de configuração foi fechada utilizando o comando 'Dispose'.
+					//Verifica se a tela de configuração foi fechada utilizando o 'X'.
 					telaConfig.addWindowListener(new WindowAdapter() {
 						public void windowClosed(WindowEvent evt) {
 							
-							if(config == null) {
-								menuVisi.setEnabled(true);
-								return;
-							}else
-							
-							if(config.getCheck()) {
-								menuVisi.setEnabled(false);
-							} else {
-								menuVisi.setEnabled(true);
-							}
+							buscarDadosConfig();
+							menuVisi.setEnabled(config == null || !config.getCheck());
 						}
-					});	
-					
+					});
 				}
 
 			});
