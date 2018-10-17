@@ -158,7 +158,7 @@ public class ManipularArquivo {
 		return arrayDados;
 		
 		} catch(IOException e) {
-			System.err.printf("Erro na abertura do arquivo: %s.\n", e.getMessage());
+			System.err.printf("Não foi possível recuperar dados do arquivo: %s.\n", e.getMessage());
 		}
 		
 		return null;		
@@ -195,7 +195,7 @@ public class ManipularArquivo {
 		return config;
 		
 		} catch(IOException e) {
-			System.err.printf("Erro na abertura do arquivo: %s.\n", e.getMessage());
+			System.err.printf("Seguinte arquivo não está criado: %s.\n", e.getMessage());
 		}
 		
 		return null;		
@@ -242,7 +242,7 @@ public class ManipularArquivo {
 	        fileOut.write(inputStr.getBytes());
 	        fileOut.close();
 		} catch (IOException e) {
-			System.err.printf("Erro na abertura do arquivo: %s.\n", e.getMessage());
+			System.err.printf("Não foi possível remover dados do arquivo: %s.\n", e.getMessage());
 		}
  	}
 		

@@ -4,6 +4,8 @@ import java.awt.Color;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.File;
 
 import javax.swing.AbstractAction;
@@ -58,6 +60,17 @@ public class TelaConfiguracaoWindow extends JFrame {
 			}
 			setarValores(config);
 		}
+		
+		//Verifica se a cobnfiguração foi realizada e não deixa fechar a janela sem fazer.
+		addWindowListener(new WindowAdapter() {
+			public void windowClosing(WindowEvent evt) {
+				File diretorio = new File(System.getProperty("user.home") + "\\dijkstra\\data\\config.txt");
+				if(!diretorio.exists()) {
+				//TODO: REABRIR JANELA
+				//setVisible(true);
+				}
+			}
+		});
 	}
 
 	public void criarComponentes() {

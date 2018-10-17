@@ -47,7 +47,7 @@ import br.com.dijkstra.model.Config;
 					if (telaConfig == null) {
 						telaConfig = new TelaConfiguracaoWindow();
 					}
-					else {		
+					else {
 						telaConfig.requestFocus();
 						telaConfig.setFocusable(true);
 						telaConfig.setExtendedState(JFrame.NORMAL);
@@ -60,7 +60,6 @@ import br.com.dijkstra.model.Config;
 					 //Verifica se a tela de configuração foi fechada utilizando o 'X'.
 					telaConfig.addWindowListener(new WindowAdapter() {
 						public void windowClosing(WindowEvent evt) {
-							
 							if(config == null) {
 								menuVisi.setEnabled(true);
 								return;
@@ -71,6 +70,7 @@ import br.com.dijkstra.model.Config;
 							} else {
 								menuVisi.setEnabled(true);
 							}
+							
 						}
 					});
 					
