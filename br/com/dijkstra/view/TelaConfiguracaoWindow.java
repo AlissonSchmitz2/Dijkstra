@@ -61,13 +61,14 @@ public class TelaConfiguracaoWindow extends JFrame {
 			setarValores(config);
 		}
 		
-		//Verifica se a cobnfiguração foi realizada e não deixa fechar a janela sem fazer.
+		//Verifica se a configuração foi realizada e não deixa fechar a janela sem fazer.
 		addWindowListener(new WindowAdapter() {
 			public void windowClosing(WindowEvent evt) {
 				File diretorio = new File(System.getProperty("user.home") + "\\dijkstra\\data\\config.txt");
 				if(!diretorio.exists()) {
 				//TODO: REABRIR JANELA
 					setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+					JOptionPane.showMessageDialog(rootPane, "É necessário realizar as configurações!", null, JOptionPane.ERROR_MESSAGE, null);
 				} else {
 					setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 				}
