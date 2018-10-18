@@ -35,7 +35,7 @@ public class ThreadPrincipal {
 							try {				
 								while (!Thread.currentThread().isInterrupted()) {
 									
-									System.out.println("TESTANDO THREAD...");
+									System.out.print("TESTANDO THREAD...");
 									
 									try {
 										Thread.sleep(300);
@@ -94,8 +94,6 @@ public class ThreadPrincipal {
 		//TODO: Executar Dijkstra no arquivo, o caminho está no argumento do parâmetro.
 		//lendo os dados e armazenando no model - dados do arquivo txt encontrado na pasta principal
 		dadosTxt = mA.buscarDadosTxt(caminhoArquivoRota);
-		
-		System.out.println("veioooo");
 
 		if(true) {//Encontrou o menor caminho - pasta sucesso
 		

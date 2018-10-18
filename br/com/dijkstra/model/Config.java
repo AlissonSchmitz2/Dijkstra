@@ -3,7 +3,6 @@
 public class Config {
 	private String caminhoPasta, caminhoSucesso, CaminhoErro;
 	private Boolean check;
-	private Integer id;
 	
 	public Config() {
 		
@@ -15,13 +14,6 @@ public class Config {
 		this.caminhoSucesso = caminhoSucesso;
 		this.CaminhoErro = caminhoErro;
 		this.check = check;
-	}
-	
-	public Integer getId() {
-		return id;
-	}
- 	public void setId(Integer id) {
-		this.id = id;
 	}
 
 	public String getCaminhoPasta() {

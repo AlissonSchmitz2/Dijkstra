@@ -1,12 +1,16 @@
 package br.com.dijkstra.view;
 
 import java.awt.AWTException;
+import java.awt.Image;
 import java.awt.MenuItem;
 import java.awt.PopupMenu;
 import java.awt.SystemTray;
 import java.awt.TrayIcon;
 import java.awt.event.*;
 import java.io.File;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import br.com.dijkstra.lib.ManipularArquivo;
 import br.com.dijkstra.model.Config;
@@ -104,7 +108,13 @@ import br.com.dijkstra.model.Config;
 	        menu.addSeparator();
 	        menu.add(quitItem);
 	        
-	        ImageIcon icon = new ImageIcon("br/com/dijkstra/icons/mundo.gif");
+			ImageIcon icon = new ImageIcon("br/com/dijkstra/icons/mundo.gif");
+			
+			//TODO: Verificar arquivo jar quando exportar, pegar icones.
+			//getClass().getResource serve para pegar o caminho correto
+			//https://pt.wikihow.com/Criar-um-Arquivo-Executável-no-Eclipse
+			//ImageIcon icon = new ImageIcon(getClass().getResource("br/com/dijkstra/icons/mundo.gif"));
+
 	        TrayIcon ti = new TrayIcon(icon.getImage(), "Dijsktra", menu); 
 
 	        // Ação para clique com botão esquerdo.
@@ -113,6 +123,7 @@ import br.com.dijkstra.model.Config;
 	                JOptionPane.showMessageDialog(null, 
 	                    "Alisson Schmitz\n" + 
 	                    "Giovane Santiago\n" +
+	                    "Victor Cechinel\n" +
 	                    "Vinnicius Mazzuchetti\n" +
 	                    "Wilian Hendler\n", "Desenvolvimento",
 	                    JOptionPane.NO_OPTION);
