@@ -28,7 +28,7 @@ public class TelaBuscaWindow extends JFrame {
 	
 	private JTextField textBusca, textCodOrigem, textCidadeOrigem, textCodDestino, 
 	textCidadeDestino, textKm ;
-	private JButton btnBuscar, btnAdd, btnSalvar, btnProcessar;
+	private JButton btnBuscar, btnAdd, btnSalvar, btnProcessar, btnLimpar;
 	private JLabel label;
 	
 	private JScrollPane scrollpane;
@@ -63,10 +63,10 @@ public class TelaBuscaWindow extends JFrame {
 			criarComponentes();
 			setVisible(true);
 			setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-
-			Image imagemTitulo = Toolkit.getDefaultToolkit().getImage("br/com/dijkstra/icons/busca.png");
+			
+			Image imagemTitulo = Toolkit.getDefaultToolkit().getImage(getClass().getResource("/icons/busca.png"));
 			this.setIconImage(imagemTitulo);
-
+			
 		}
 		
 		public void criarComponentes() {
@@ -80,7 +80,7 @@ public class TelaBuscaWindow extends JFrame {
 			getContentPane().add(textBusca);
 			textBusca.addKeyListener(acao);
 
-			//Campos de ORIGEM
+			//Campos de ORIGEMzzzzzzzzzz
 			label = new JLabel("Código: ");
 			label.setBounds(10, 40, 50, 45);
 			getContentPane().add(label);	
@@ -215,7 +215,24 @@ public class TelaBuscaWindow extends JFrame {
 			btnBuscar.setBounds(375, 10, 100, 25);
 			getContentPane().add(btnBuscar);
 			btnBuscar.addKeyListener(acao);
-						
+			
+			btnLimpar = new JButton(new AbstractAction("Limpar") {
+				private static final long serialVersionUID = -8959816262699821865L;
+
+				@Override
+				public void actionPerformed(ActionEvent arg0) {
+
+					int limparBusca = JOptionPane.showConfirmDialog(null, "Deseja limpar o campo de busca?");
+					if(limparBusca == 0) {
+						limparCampoBusca();
+					}
+					
+				}
+			});
+			btnLimpar.setToolTipText("Limpar campo de busca");
+			btnLimpar.setBounds(500, 10, 100, 25);
+			getContentPane().add(btnLimpar);
+			
 			btnSalvar = new JButton(new AbstractAction("SALVAR") {
 				private static final long serialVersionUID = 1L;
 
@@ -331,6 +348,10 @@ public class TelaBuscaWindow extends JFrame {
 			textCodDestino.setText("");
 			textCodOrigem.setText("");
 			textKm.setText("");
+		}
+		
+		private void limparCampoBusca() {
+			textBusca.setText("");
 		}
 		
 		@Override

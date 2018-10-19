@@ -1,16 +1,13 @@
 package br.com.dijkstra.view;
 
 import java.awt.AWTException;
-import java.awt.Image;
 import java.awt.MenuItem;
 import java.awt.PopupMenu;
 import java.awt.SystemTray;
+import java.awt.Toolkit;
 import java.awt.TrayIcon;
 import java.awt.event.*;
 import java.io.File;
-import java.io.IOException;
-
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import br.com.dijkstra.lib.ManipularArquivo;
 import br.com.dijkstra.model.Config;
@@ -108,12 +105,7 @@ import br.com.dijkstra.model.Config;
 	        menu.addSeparator();
 	        menu.add(quitItem);
 	        
-			ImageIcon icon = new ImageIcon("br/com/dijkstra/icons/mundo.gif");
-			
-			//TODO: Verificar arquivo jar quando exportar, pegar icones.
-			//getClass().getResource serve para pegar o caminho correto
-			//https://pt.wikihow.com/Criar-um-Arquivo-Executável-no-Eclipse
-			//ImageIcon icon = new ImageIcon(getClass().getResource("br/com/dijkstra/icons/mundo.gif"));
+			ImageIcon icon = new ImageIcon(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/icons/mundo.gif")));
 
 	        TrayIcon ti = new TrayIcon(icon.getImage(), "Dijsktra", menu); 
 
@@ -137,7 +129,7 @@ import br.com.dijkstra.model.Config;
 				e1.printStackTrace();
 			}
 	        
-	        ti.displayMessage("Informações", "Clique com o botão direito do mouse neste ícone para alterar as configurações salvas.", TrayIcon.MessageType.INFO);
+	        ti.displayMessage("Informações", "O dijkstra está sendo executado em segundo plano, clique aqui para alterar configurações", TrayIcon.MessageType.INFO);
 	        
 	        diretorioVerificar();
 	    }

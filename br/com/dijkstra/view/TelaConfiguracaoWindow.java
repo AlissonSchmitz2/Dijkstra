@@ -46,7 +46,7 @@ public class TelaConfiguracaoWindow extends JFrame {
 		setVisible(true);
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		
-		Image imagemTitulo = Toolkit.getDefaultToolkit().getImage("br/com/dijkstra/icons/config2.png");
+		Image imagemTitulo = Toolkit.getDefaultToolkit().getImage(getClass().getResource("/icons/config2.png"));
 		this.setIconImage(imagemTitulo);
 		
 		File diretorio = new File(System.getProperty("user.home") + "\\dijkstra\\data");
