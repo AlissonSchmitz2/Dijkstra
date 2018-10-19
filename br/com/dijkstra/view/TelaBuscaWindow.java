@@ -80,7 +80,7 @@ public class TelaBuscaWindow extends JFrame {
 			getContentPane().add(textBusca);
 			textBusca.addKeyListener(acao);
 
-			//Campos de ORIGEMzzzzzzzzzz
+			//Campos de ORIGEM
 			label = new JLabel("Código: ");
 			label.setBounds(10, 40, 50, 45);
 			getContentPane().add(label);	
