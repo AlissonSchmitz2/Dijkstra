@@ -64,7 +64,7 @@ public class TelaBuscaWindow extends JFrame {
 			setVisible(true);
 			setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 			
-			Image imagemTitulo = Toolkit.getDefaultToolkit().getImage(getClass().getResource("/icons/busca.png"));
+			Image imagemTitulo = Toolkit.getDefaultToolkit().getImage(getClass().getResource("/br/com/dijkstra/icons/busca.png"));
 			this.setIconImage(imagemTitulo);
 			
 		}

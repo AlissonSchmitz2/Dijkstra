@@ -105,7 +105,7 @@ import br.com.dijkstra.model.Config;
 	        menu.addSeparator();
 	        menu.add(quitItem);
 	        
-			ImageIcon icon = new ImageIcon(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/icons/mundo.gif")));
+			ImageIcon icon = new ImageIcon(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/br/com/dijkstra/icons/mundo.gif")));
 
 	        TrayIcon ti = new TrayIcon(icon.getImage(), "Dijsktra", menu); 
 
