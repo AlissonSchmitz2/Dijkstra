@@ -117,7 +117,7 @@ public class ThreadPrincipal {
 		int codigoInicio = listCM.get(0).getCodigoOrigem();
 		System.out.println(qtdVertices);
 		
-		new Dijkstra(grafo,codigoInicio,codigoFinal);
+		new Dijkstra(grafo,codigoInicio,codigoFinal,true);
 		
 		System.out.println("AUMENTA");
 		

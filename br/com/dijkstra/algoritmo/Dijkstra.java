@@ -9,6 +9,7 @@ import javax.swing.JOptionPane;
 import br.com.dijkstra.grafo.Aresta;
 import br.com.dijkstra.grafo.Grafo;
 import br.com.dijkstra.grafo.Vertice;
+import br.com.dijkstra.model.Config;
 
 public class Dijkstra {
 
@@ -42,15 +43,17 @@ public class Dijkstra {
 	private static Grafo grafo = null;
 	private int codOrigin;
 	private int codDestino;
-
+	private boolean verificaRota;
+	
 	public Dijkstra() {
 
 	}
 
-	public Dijkstra(Grafo grafo, int codOrigin, int codDestino) {
+	public Dijkstra(Grafo grafo, int codOrigin, int codDestino, boolean verificaRota) {
 		Dijkstra.grafo = grafo;
 		this.codOrigin = codOrigin;
 		this.codDestino = codDestino;
+		this.verificaRota = verificaRota;
 		try {
 			encontrarMenorCaminho();
 		} catch (Exception e) {
@@ -142,7 +145,7 @@ public class Dijkstra {
 		}
 
 		inserirChaveValor(vertices);
-		mostrarMenorCaminho();
+		mostrarMenorCaminho(verificaRota);
 
 	}
 
@@ -185,7 +188,7 @@ public class Dijkstra {
 	}
 
 	// Percorre menor caminho;
-	public void mostrarMenorCaminho() {
+	public String mostrarMenorCaminho(boolean verificaRota) {
 
 		int codigoDestino = pegarIndiceVertice(codDestino, vertices);
 		int codigoInicio = pegarIndiceVertice(codOrigin, vertices);
@@ -196,8 +199,17 @@ public class Dijkstra {
 			res = pegaCidadeReferenteAoCodigo(vertices.get(codigoDestino).getPai().getCodigo()) + ", " + res  ;
 			codigoDestino = pegarIndiceVertice(vertices.get(codigoDestino).getPai().getCodigo(), vertices);
 		}
+		
+		if(verificaRota) {
+			return "Menor Caminho: " + res  + destino + "\nDistância total: " + distancia + "KM";
+		}
+		
 		JOptionPane.showMessageDialog(null, "Menor Caminho: " + res  + destino + "\nDistância total: " 
 		+ distancia + "KM");
+		
+		return "";
+		
+		
 	}
 
 	public static String pegaCidadeReferenteAoCodigo(int codigoCidade) {

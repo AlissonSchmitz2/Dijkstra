@@ -299,7 +299,7 @@ public class TelaBuscaWindow extends JFrame {
 							e1.printStackTrace();
 						}
 					
-					new Dijkstra(grafo, codOrigin, codDestino);
+					new Dijkstra(grafo, codOrigin, codDestino, false);
 				
 				}
 			});
