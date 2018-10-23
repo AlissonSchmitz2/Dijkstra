@@ -19,6 +19,8 @@ import javax.swing.JTextField;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.TableModel;
 
+import br.com.dijkstra.algoritmo.Dijkstra;
+import br.com.dijkstra.grafo.Grafo;
 import br.com.dijkstra.lib.ManipularArquivo;
 import br.com.dijkstra.model.CaminhoManual;
 import br.com.dijkstra.model.CaminhoManualTableModel;
@@ -28,12 +30,13 @@ public class TelaBuscaWindow extends JFrame {
 	
 	private JTextField textBusca, textCodOrigem, textCidadeOrigem, textCodDestino, 
 	textCidadeDestino, textKm ;
-	private JButton btnBuscar, btnAdd, btnSalvar, btnProcessar, btnLimpar;
+	private JButton btnBuscar, btnAdd, btnSalvar, btnProcessar;
 	private JLabel label;
 	
 	private JScrollPane scrollpane;
 	private TableModel tableModel = new CaminhoManualTableModel();
 	private ArrayList<CaminhoManual> listCM = new ArrayList<>();
+	Grafo grafo = new Grafo();
 	ManipularArquivo mA = new ManipularArquivo();
 	private boolean importouTXT = false;
 	
@@ -194,13 +197,13 @@ public class TelaBuscaWindow extends JFrame {
 						if(textBusca.getText().equals("") == false) {
 							importouTXT = true;
 							listCM.clear();
-							ArrayList<CaminhoManual> dados = new ArrayList<>();
+							listCM = new ArrayList<>();
 								
-							dados = mA.recuperarDados(textBusca.getText());
+							listCM = mA.recuperarDados(textBusca.getText());
 							((CaminhoManualTableModel) tableModel).limpar();
 								
-							for(int i = 0; i < dados.size(); i++) {							
-								((CaminhoManualTableModel) tableModel).addRow(dados.get(i));
+							for(int i = 0; i < listCM.size(); i++) {							
+								((CaminhoManualTableModel) tableModel).addRow(listCM.get(i));
 							}
 							
 						} 
@@ -215,24 +218,7 @@ public class TelaBuscaWindow extends JFrame {
 			btnBuscar.setBounds(375, 10, 100, 25);
 			getContentPane().add(btnBuscar);
 			btnBuscar.addKeyListener(acao);
-			
-			btnLimpar = new JButton(new AbstractAction("Limpar") {
-				private static final long serialVersionUID = -8959816262699821865L;
-
-				@Override
-				public void actionPerformed(ActionEvent arg0) {
-
-					int limparBusca = JOptionPane.showConfirmDialog(null, "Deseja limpar o campo de busca?");
-					if(limparBusca == 0) {
-						limparCampoBusca();
-					}
-					
-				}
-			});
-			btnLimpar.setToolTipText("Limpar campo de busca");
-			btnLimpar.setBounds(500, 10, 100, 25);
-			getContentPane().add(btnLimpar);
-			
+		
 			btnSalvar = new JButton(new AbstractAction("SALVAR") {
 				private static final long serialVersionUID = 1L;
 
@@ -290,7 +276,35 @@ public class TelaBuscaWindow extends JFrame {
 			btnSalvar.setBounds(385, 455, 110, 25);
 			getContentPane().add(btnSalvar);
 						
-			btnProcessar = new JButton("PROCESSAR");
+			
+
+			btnProcessar = new JButton(new AbstractAction("PROCESSAR") {
+				private static final long serialVersionUID = 1L;
+				int codOrigin;
+				int codDestino;
+
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					codOrigin = Integer.parseInt(JOptionPane.showInputDialog("Codigo Origin:"));
+					codDestino = Integer.parseInt(JOptionPane.showInputDialog("Código destino"));
+
+					if(codOrigin < 0 || codDestino < 0) {
+						JOptionPane.showMessageDialog(null, "Código informado não pode ser negativo!");
+					}
+					
+					
+						try {
+							grafo.montarGrafo(listCM);
+						} catch (Exception e1) {
+							e1.printStackTrace();
+						}
+					
+					new Dijkstra(grafo, codOrigin, codDestino);
+				
+				}
+			});
+			btnProcessar.setBounds(500, 455, 110, 25);
+			getContentPane().add(btnProcessar);
 			btnProcessar.setBounds(500, 455, 110, 25);
 			getContentPane().add(btnProcessar);
 
@@ -348,10 +362,6 @@ public class TelaBuscaWindow extends JFrame {
 			textCodDestino.setText("");
 			textCodOrigem.setText("");
 			textKm.setText("");
-		}
-		
-		private void limparCampoBusca() {
-			textBusca.setText("");
 		}
 		
 		@Override

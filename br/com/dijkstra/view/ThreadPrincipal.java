@@ -4,8 +4,11 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 
+import br.com.dijkstra.grafo.Grafo;
 import br.com.dijkstra.lib.*;
+import br.com.dijkstra.model.CaminhoManual;
 import br.com.dijkstra.model.Config;
 import br.com.dijkstra.model.DadosTxt;
 
@@ -14,6 +17,8 @@ public class ThreadPrincipal {
 	private ManipularArquivo mA;
 	private Config config;
 	private DadosTxt dadosTxt = new DadosTxt();
+	private ArrayList<CaminhoManual> listCM = new ArrayList<>();
+	Grafo grafo = new Grafo();
 
 	public ThreadPrincipal() {
 		criarThread();
@@ -93,8 +98,11 @@ public class ThreadPrincipal {
 
 		//TODO: Executar Dijkstra no arquivo, o caminho está no argumento do parâmetro.
 		//lendo os dados e armazenando no model - dados do arquivo txt encontrado na pasta principal
-		dadosTxt = mA.buscarDadosTxt(caminhoArquivoRota);
-
+		
+		listCM = mA.recuperarDados(caminhoArquivoRota);
+		System.out.println(listCM.get(0).getCidadeOrigem());
+		
+		
 		if(true) {//Encontrou o menor caminho - pasta sucesso
 		
 		//cria um arquivo na pasta sucesso
