@@ -1,6 +1,7 @@
 package br.com.dijkstra.view;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import br.com.dijkstra.algoritmo.Dijkstra;
@@ -15,7 +16,7 @@ public class ThreadPrincipal {
 	private Config config;
 	private DadosTxt dadosTxt = new DadosTxt();
 	private ArrayList<CaminhoManual> listCM = new ArrayList<>();
-	
+	private int i;
 
 	public ThreadPrincipal() {
 		criarThread();
@@ -26,6 +27,7 @@ public class ThreadPrincipal {
 		if (config == null) {
 			return;
 		}
+		
 		if (config.getCheck()) {
 			new Thread(new Runnable() {
 
@@ -48,36 +50,36 @@ public class ThreadPrincipal {
 							// dijkstra
 							try {
 								File arquivosDiretorio = new File(config.getCaminhoPasta());
-								File[] listaArquivos;
+								final File[] listaArquivos;
 								listaArquivos = arquivosDiretorio.listFiles();
-
+								
 								// COLOCAR DENTRO DA THREAD
-								for (int i = 0; i < listaArquivos.length; i++) {
+								
+								for (i = 0; i < listaArquivos.length; i++) {
 									
 									if (listaArquivos[i].toString().endsWith(".txt")) {
-										new Thread(new Runnable() {
+										
+										System.out.println("TESTANDO segunda THREAD..." +listaArquivos[i].toString() );
+										
+										listCM = mA.recuperarDados(listaArquivos[i].toString());
 
-											@Override
-											public void run() {
-												
-												for(int i = 0; i < listaArquivos.length; i++) {
+										try {
+											arquivoNaPasta(listCM, listaArquivos[i].getName());
+										} catch (IOException e) {
+											// TODO Auto-generated catch block
+											e.printStackTrace();
+										}									
 
-												System.out.println("TESTANDO segunda THREAD...");
-												
-												listCM = mA.recuperarDados(listaArquivos[i].toString());
-												arquivoNaPasta(listCM);
-												
-												}
-												
-											}
-										}).start();
 
 									}
+									
 								}
 							} catch (Exception e) {
 								// TODO: handle exception
 							}
-
+							
+							
+							
 							if (!config.getCheck()) {
 								break;
 							}
@@ -93,14 +95,20 @@ public class ThreadPrincipal {
 
 	private void buscarDadosConfig() {
 		mA = new ManipularArquivo();
-		try {
+		try {	
 			config = mA.recuperarDadosConfig(System.getProperty("user.home") + "\\dijkstra\\data\\config.txt");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
+	
+	private void arquivoNaPasta(ArrayList<CaminhoManual> listCM, final String nomeArquivo) throws IOException{
+		
+		System.out.println(listCM);
+		
+		moveArquivo cop = new moveArquivo();
 
-	private void arquivoNaPasta(ArrayList<CaminhoManual> listCM){
+		cop.moveFile(config.getCaminhoPasta(), nomeArquivo, config.getCaminhoSucesso());
 		
 		// TODO: Executar Dijkstra no arquivo, o caminho está no argumento do parâmetro.
 		Grafo grafo = new Grafo();
@@ -117,17 +125,15 @@ public class ThreadPrincipal {
 		int codigoInicio = listCM.get(0).getCodigoOrigem();
 		System.out.println(qtdVertices);
 		
-		new Dijkstra(grafo,codigoInicio,codigoFinal,true);
+		String mensagem = new Dijkstra(grafo,codigoInicio,codigoFinal,true).toString();
 		
-		System.out.println("AUMENTA");
+		System.out.println(mensagem);
+		System.out.println("MOVER");
 		
 		/*if (true) {// Encontrou o menor caminho - pasta sucesso
 
 			// cria um arquivo na pasta sucesso
-			FileWriter arq = new FileWriter(new File(config.getCaminhoSucesso() + "\\nomeArquivoSucesso.txt"), true);// colocar
-																														// nome
-																														// do
-																														// arquivo
+			FileWriter arq = new FileWriter(new File(config.getCaminhoSucesso() + "\\nomeArquivoSucesso.txt"), true);// colocar																					// do																											// arquivo
 																														// novo
 			PrintWriter gravarArq = new PrintWriter(arq);
 

@@ -155,6 +155,8 @@ public class ManipularArquivo {
 			linha = lerArq.readLine();
 		}
 		
+		arq.close();
+		lerArq.close();
 		return arrayDados;
 		
 		} catch(IOException e) {

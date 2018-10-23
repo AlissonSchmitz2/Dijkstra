@@ -1,5 +1,4 @@
 package br.com.dijkstra.algoritmo;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -22,6 +21,7 @@ public class Dijkstra {
 	int indiceDestinoFinal = 0;
 	String destino = "";
 	int cont = 0;
+	Config config;
 
 	// Lista do menor caminho
 	List<Vertice> vertices = new ArrayList<Vertice>();
@@ -44,7 +44,7 @@ public class Dijkstra {
 	private int codOrigin;
 	private int codDestino;
 	private boolean verificaRota;
-	
+
 	public Dijkstra() {
 
 	}
@@ -100,13 +100,14 @@ public class Dijkstra {
 				verticeDestino = pegarIndiceVertice(arestaDestino, vertices);
 				pesoArestaAtual = vertices.get(menorIndice).getAresta().get(i).getPesoAresta();
 
-				//Verifica se códido destino é igual a arestaDestino para armazenar numa variavel 
-				//para resultado final;
-				
-				if(arestaDestino == codDestino) {
+				// Verifica se códido destino é igual a arestaDestino para armazenar numa
+				// variavel
+				// para resultado final;
+
+				if (arestaDestino == codDestino) {
 					destino = cidadeDestino;
 				}
-				
+
 				// Adiciona novo vertice, caso não encontre o codigo;
 				if (verticeDestino == -1) {
 					Aresta aDestino = new Aresta();
@@ -193,28 +194,28 @@ public class Dijkstra {
 		int codigoDestino = pegarIndiceVertice(codDestino, vertices);
 		int codigoInicio = pegarIndiceVertice(codOrigin, vertices);
 
-		float distancia =  vertices.get(codigoDestino).getDistancia();
+		float distancia = vertices.get(codigoDestino).getDistancia();
 		String res = "";
 		while (codigoDestino != codigoInicio) {
-			res = pegaCidadeReferenteAoCodigo(vertices.get(codigoDestino).getPai().getCodigo()) + ", " + res  ;
+			res = pegaCidadeReferenteAoCodigo(vertices.get(codigoDestino).getPai().getCodigo()) + ", " + res;
 			codigoDestino = pegarIndiceVertice(vertices.get(codigoDestino).getPai().getCodigo(), vertices);
 		}
-		
-		if(verificaRota) {
-			return "Menor Caminho: " + res  + destino + "\nDistância total: " + distancia + "KM";
+
+		if (verificaRota) {
+			
+			return "Menor Caminho: " + res + destino + "\nDistância total: " + distancia + "KM";
 		}
-		
-		JOptionPane.showMessageDialog(null, "Menor Caminho: " + res  + destino + "\nDistância total: " 
-		+ distancia + "KM");
-		
+
+		JOptionPane.showMessageDialog(null,
+				"Menor Caminho: " + res + destino + "\nDistância total: " + distancia + "KM");
+
 		return "";
-		
-		
+
 	}
 
 	public static String pegaCidadeReferenteAoCodigo(int codigoCidade) {
 		HashMap<Integer, String> mapa = map;
 		return mapa.get(codigoCidade);
 	}
-
-}
+	
+}	

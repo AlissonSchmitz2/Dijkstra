@@ -7,7 +7,6 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
 import java.util.Map.Entry;
 
 import javax.swing.AbstractAction;
@@ -342,9 +341,9 @@ public class TelaBuscaWindow extends JFrame {
 			} else if(textCidadeDestino.getText().equals(textCidadeOrigem.getText())) {
 				return "O nome da cidade de destino não pode ser igual ao da cidade de origem!";
 			} else if(verificarLetras(textCodOrigem.getText()) || verificarLetras(textCodDestino.getText()) || verificarLetras(textKm.getText())) {
-				return "Os campos 'Código' e 'KM' não podem conter letras!";
+				return "Os campos 'Código' ou 'KM' não podem conter letras!";
 			} else if(textKm.getText().contains(",") || textCodDestino.getText().contains(",") || textCodOrigem.getText().contains(",")) {
-				return "Os campos 'Código' e 'KM' não podem conter vírgulas";
+				return "Os campos 'Código' ou 'KM' não podem conter vírgulas";
 			} else if(textCodDestino.getText().contains(".") || textCodOrigem.getText().contains(".")) {
 				return "Os campos 'Código' não podem conter pontos";
 			}
