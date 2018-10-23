@@ -6,6 +6,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.swing.AbstractAction;
 import javax.swing.JButton;
@@ -39,6 +42,7 @@ public class TelaBuscaWindow extends JFrame {
 	Grafo grafo = new Grafo();
 	ManipularArquivo mA = new ManipularArquivo();
 	private boolean importouTXT = false;
+	private HashMap<Integer, String> caminhosAdicionados = new HashMap<>(); 
 	
 	KeyAdapter acao = new KeyAdapter() {
 		@Override
@@ -156,21 +160,25 @@ public class TelaBuscaWindow extends JFrame {
 					
 					String validacao = validacoesAdicao();
 					
-					if(validacao.equals("")) {
-					CaminhoManual CM = new CaminhoManual();
-					CM.setCidadeDestino(textCidadeDestino.getText());
-					CM.setCidadeOrigem(textCidadeOrigem.getText());
-					CM.setCodigoDestino(Integer.parseInt(textCodDestino.getText()));
-					CM.setCodigoOrigem(Integer.parseInt(textCodOrigem.getText()));
-					CM.setDistanciaKM(Float.parseFloat(textKm.getText()));
-					
-					//Adição do objeto na lista para depois adicionar no TXT.
-					listCM.add(CM);
-					
-					((CaminhoManualTableModel) tableModel).addRow(CM);	
-					
-					limparCamposAdicao();
-					textCodOrigem.requestFocus();
+					if(validacao.equals("")) {						
+						
+						caminhosAdicionados.put(Integer.parseInt(textCodOrigem.getText()), textCidadeOrigem.getText());
+						caminhosAdicionados.put(Integer.parseInt(textCodDestino.getText()), textCidadeDestino.getText());
+						
+						CaminhoManual CM = new CaminhoManual();
+						CM.setCidadeDestino(textCidadeDestino.getText());
+						CM.setCidadeOrigem(textCidadeOrigem.getText());
+						CM.setCodigoDestino(Integer.parseInt(textCodDestino.getText()));
+						CM.setCodigoOrigem(Integer.parseInt(textCodOrigem.getText()));
+						CM.setDistanciaKM(Float.parseFloat(textKm.getText()));
+						
+						//Adição do objeto na lista para depois adicionar no TXT.
+						listCM.add(CM);
+						
+						((CaminhoManualTableModel) tableModel).addRow(CM);	
+						
+						limparCamposAdicao();
+						textCodOrigem.requestFocus();
 					
 					} else {
 						JOptionPane.showMessageDialog(null, "" + validacao);
@@ -341,7 +349,84 @@ public class TelaBuscaWindow extends JFrame {
 				return "Os campos 'Código' não podem conter pontos";
 			}
 			
+			//Validação para evitar que o mesmo código possua cidades diferentes.
+			Integer codOrigem = Integer.parseInt(textCodOrigem.getText());
+			Integer codDestino = Integer.parseInt(textCodDestino.getText());
+			String cidadeOrigem = textCidadeOrigem.getText();
+			String cidadeDestino = textCidadeDestino.getText();
+			
+			if(caminhosAdicionados.containsKey(codOrigem)) {
+				
+				if(!((caminhosAdicionados.get(codOrigem)).toString()).equals(cidadeOrigem)) {					
+					return "O código " + codOrigem + " já contém a cidade " + caminhosAdicionados.get(codOrigem) + " associada a ele.";
+				}
+			}
+			
+			if(caminhosAdicionados.containsKey(codDestino)) {
+				
+				if(!((caminhosAdicionados.get(codDestino)).toString()).equals(cidadeDestino)) {
+					return "O código " + codDestino + " já contém a cidade " + caminhosAdicionados.get(codDestino) + " associada a ele.";
+				}
+			}
+			
+			//Validação para evitar que a mesma cidade possua códigos diferentes.			
+			if(caminhosAdicionados.containsValue(cidadeOrigem)) {
+				
+				Integer keyCidadeOrigem = getKeyByValue(caminhosAdicionados, cidadeOrigem);
+				if(!codOrigem.equals(keyCidadeOrigem)) {
+					return "A cidade " + cidadeOrigem + " já contém o código " + keyCidadeOrigem + " associado a ela."; 
+				}
+			}
+			
+			if(caminhosAdicionados.containsValue(cidadeDestino)) {
+				
+				Integer keyCidadeDestino = getKeyByValue(caminhosAdicionados, cidadeDestino);
+				if(!codDestino.equals(keyCidadeDestino)) {
+					return "A cidade " + cidadeDestino + " já contém o código " + keyCidadeDestino + " associado a ela."; 
+				}
+			}
+			
+			//Validação para evitar a adição de linhas iguais na table.
+			if(verificarLinhaDuplicada()) {
+				return "As informações que você está tentando adicionar já existem na tabela.";
+			}
+			
+			//Nenhum erro encontrado.
 			return "";
+		}
+		
+		//Verificar a adição de linhas identicas a table.
+		public boolean verificarLinhaDuplicada() {
+			
+			String linhaExistente;
+			String novaLinha;
+			
+			novaLinha = textCodOrigem.getText() + textCidadeOrigem.getText() + textCodDestino.getText() +
+					    textCidadeDestino.getText();
+			
+			for(int i = 0; i < listCM.size(); i++) {
+				linhaExistente = listCM.get(i).getCodigoOrigem() + listCM.get(i).getCidadeOrigem() + listCM.get(i).getCodigoDestino()
+						         + listCM.get(i).getCidadeDestino();
+				if(linhaExistente.equals(novaLinha)) {
+					return true;
+				}
+			}
+			
+			return false;
+		}
+		
+		
+		//Recuperar a key a partir de um valor no HashMap.
+		public static <T, E> T getKeyByValue(HashMap<T, E> map, E value) {
+
+		    for (Entry<T, E> entry : map.entrySet()) {
+
+		        if (value.equals(entry.getValue())) {
+		            return entry.getKey();
+		        }
+		    }
+
+		    return null;
 		}
 		
 		//Verifica se uma determinada string possui letras.
