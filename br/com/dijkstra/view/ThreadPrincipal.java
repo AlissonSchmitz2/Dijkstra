@@ -118,30 +118,26 @@ public class ThreadPrincipal {
 
 		Dijkstra djk = new Dijkstra(grafo, codigoInicio, codigoFinal, true);
 		String mensagem = djk.mostrarMenorCaminho(true);
-
-		System.out.println("DIJKSTRA - MOVEU");
-		System.out.println(nomeArquivo);
 		
-		//ESCREVENDO NO ARQUIVO
+		//NOME DO ARQUIVO
+		System.out.println(nomeArquivo);
+		//ESCREVENDO MENSAGEM NO ARQUIVO
 		FileWriter arq = new FileWriter(new File(config.getCaminhoPasta() + "\\" + nomeArquivo), true);
 		PrintWriter gravarArq = new PrintWriter(arq);
-		
 		gravarArq.println(mensagem); 
 		arq.close();
 
 		//MOVENDO ARQUIVO
 		moveArquivo cop = new moveArquivo();
-		System.out.println(nomeArquivo);
+		if(true) {
 		cop.moveFile(config.getCaminhoPasta(), nomeArquivo, config.getCaminhoSucesso());
-
+		}else {
+		cop.moveFile(config.getCaminhoPasta(), nomeArquivo, config.getCaminhoErro());
+		}
 		
-		 //if (true) {// Encontrou o menor caminho - pasta sucesso
-		 
-		 // cria um arquivo na pasta sucesso 
-
-		  
-		 //}
-
+		
+		
+		
 	}
 
 }
