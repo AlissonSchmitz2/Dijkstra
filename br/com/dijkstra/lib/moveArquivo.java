@@ -11,7 +11,7 @@ public class moveArquivo{
 		
 		boolean moveu = false;
 		
-		File arquivo = new File(pastaPrincipal+"\\"+nomeArquivo);
+		File arquivo = new File(pastaPrincipal + "\\" +nomeArquivo);
 		if (arquivo.exists()) {
 			File diretorioDestino = new File(pastaCopia);
 			moveu = arquivo.renameTo(new File(diretorioDestino, arquivo.getName()));

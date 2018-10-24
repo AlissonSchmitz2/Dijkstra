@@ -5,7 +5,7 @@ public class DadosTxt {
 
 	public DadosTxt() {
 	}
-	
+
 	public DadosTxt(String dados) {
 		this.dados = dados;
 	}
@@ -15,6 +15,6 @@ public class DadosTxt {
 	}
 
 	public void setDados(String dados) {
-		this.dados += dados;
+		this.dados = dados;
 	}
 }

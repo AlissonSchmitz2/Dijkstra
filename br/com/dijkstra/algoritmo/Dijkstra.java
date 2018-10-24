@@ -9,6 +9,7 @@ import br.com.dijkstra.grafo.Aresta;
 import br.com.dijkstra.grafo.Grafo;
 import br.com.dijkstra.grafo.Vertice;
 import br.com.dijkstra.model.Config;
+import br.com.dijkstra.model.DadosTxt;
 
 public class Dijkstra {
 
@@ -203,7 +204,9 @@ public class Dijkstra {
 
 		if (verificaRota) {
 			
-			return "Menor Caminho: " + res + destino + "\nDistância total: " + distancia + "KM";
+			//DadosTxt dados;
+			//dados.setDados("Menor Caminho: " + res + destino + "\nDistância total: " + distancia + "KM");
+			return "\n\nMenor Caminho: " + res + destino + "\n\n\nDistância total: " + distancia + "KM";
 		}
 
 		JOptionPane.showMessageDialog(null,
