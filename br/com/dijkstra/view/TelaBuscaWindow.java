@@ -38,7 +38,7 @@ public class TelaBuscaWindow extends JFrame {
 	private JScrollPane scrollpane;
 	private TableModel tableModel = new CaminhoManualTableModel();
 	private ArrayList<CaminhoManual> listCM = new ArrayList<>();
-	Grafo grafo = new Grafo();
+	Grafo grafo;
 	ManipularArquivo mA = new ManipularArquivo();
 	private boolean importouTXT = false;
 	private HashMap<Integer, String> caminhosAdicionados = new HashMap<>(); 
@@ -301,6 +301,7 @@ public class TelaBuscaWindow extends JFrame {
 					
 					
 						try {
+							grafo = new Grafo();
 							grafo.montarGrafo(listCM);
 						} catch (Exception e1) {
 							e1.printStackTrace();
