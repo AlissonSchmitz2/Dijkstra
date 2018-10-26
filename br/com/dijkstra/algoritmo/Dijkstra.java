@@ -10,7 +10,6 @@ import br.com.dijkstra.grafo.Aresta;
 import br.com.dijkstra.grafo.Grafo;
 import br.com.dijkstra.grafo.Vertice;
 import br.com.dijkstra.model.Config;
-import br.com.dijkstra.model.DadosTxt;
 
 public class Dijkstra {
 

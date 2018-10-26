@@ -9,12 +9,10 @@ import br.com.dijkstra.grafo.Grafo;
 import br.com.dijkstra.lib.*;
 import br.com.dijkstra.model.CaminhoManual;
 import br.com.dijkstra.model.Config;
-import br.com.dijkstra.model.DadosTxt;
 
 public class ThreadPrincipal {
 	private ManipularArquivo mA;
 	private Config config;
-	DadosTxt dadosTxt = new DadosTxt();
 	private ArrayList<CaminhoManual> listCM = new ArrayList<>();
 	private int i;
 
@@ -38,7 +36,7 @@ public class ThreadPrincipal {
 							System.out.println("TESTANDO THREAD...");
 
 							try {
-								Thread.sleep(1000);
+								Thread.sleep(500);
 							} catch (InterruptedException e) {
 								throw e;
 							}

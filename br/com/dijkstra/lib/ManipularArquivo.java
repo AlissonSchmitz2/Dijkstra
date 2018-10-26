@@ -3,19 +3,15 @@ package br.com.dijkstra.lib;
 import java.io.BufferedReader;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 
 import br.com.dijkstra.model.CaminhoManual;
 import br.com.dijkstra.model.Config;
-import br.com.dijkstra.model.DadosTxt;
 
 public class ManipularArquivo {
 
@@ -27,7 +23,6 @@ public class ManipularArquivo {
 	private boolean importouTXT = false;
 
 	private BufferedReader lerArq;
-	private DadosTxt dadosTxt = new DadosTxt();
 	private Config config = new Config();
 
 	public ManipularArquivo() {
@@ -259,33 +254,6 @@ public class ManipularArquivo {
 		} catch (IOException e) {
 			System.err.printf("Não foi possível remover dados do arquivo: %s.\n", e.getMessage());
 		}
-	}
-
-	public DadosTxt buscarDadosTxt(String caminho) throws IOException {
-		String linha;
-		InputStream is = new FileInputStream(caminho);
-		InputStreamReader isr = new InputStreamReader(is);
-		BufferedReader br = new BufferedReader(isr);
-		linha = br.readLine();
-		while (linha != null) {
-			String[] atributo = linha.split(SEPARATOR);
-			dadosTxt = criarDados(atributo);
-			linha = br.readLine();
-		}
-
-		br.close();
-
-		System.out.println(dadosTxt.getDados());
-
-		return dadosTxt;
-	}
-
-	private DadosTxt criarDados(String[] dados) {
-		DadosTxt dadosTxt = new DadosTxt();
-
-		dadosTxt.setDados(dados[0]);
-
-		return dadosTxt;
 	}
 
 	// Retorna o caminho para o arquivo de dados
