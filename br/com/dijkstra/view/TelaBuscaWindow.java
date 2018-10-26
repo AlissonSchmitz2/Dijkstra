@@ -216,7 +216,6 @@ public class TelaBuscaWindow extends JFrame {
 						} 
 						
 					} catch (Exception e1) {
-						
 						JOptionPane.showMessageDialog(rootPane, "O arquivo não foi encontrado ou é inválido.", "", JOptionPane.ERROR_MESSAGE, null);
 					}
 					

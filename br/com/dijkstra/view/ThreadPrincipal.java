@@ -1,9 +1,7 @@
 package br.com.dijkstra.view;
 
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 
 import br.com.dijkstra.algoritmo.Dijkstra;

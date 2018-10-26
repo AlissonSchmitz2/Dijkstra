@@ -141,6 +141,7 @@ public class ManipularArquivo {
 			PrintWriter gravarArq = new PrintWriter(arq);
 			gravarArq.println(mensagem);
 			arq.close();
+			gravarArq.close();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -160,7 +161,9 @@ public class ManipularArquivo {
 
 				String[] atributo = linha.split(SEPARATOR);
 
+				if(!atributo[0].equals("")) {
 				arrayDados.add(criarCaminhoManualApartirAtributos(atributo));
+				}
 
 				linha = lerArq.readLine();
 			}
