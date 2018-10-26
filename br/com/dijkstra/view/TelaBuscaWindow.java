@@ -304,6 +304,7 @@ public class TelaBuscaWindow extends JFrame {
 					try {
 						new Dijkstra(grafo, codOrigin, codDestino, false);
 					} catch (Exception e1) {
+						JOptionPane.showMessageDialog(rootPane, e1.getMessage(), "", JOptionPane.ERROR_MESSAGE, null);
 						e1.printStackTrace();
 					}
 				
