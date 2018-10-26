@@ -11,20 +11,34 @@ import java.io.File;
 import javax.swing.*;
 import br.com.dijkstra.lib.ManipularArquivo;
 import br.com.dijkstra.model.Config;
+import br.com.dijkstra.model.Executar;
 
 	public class Principal {
 	    public static JMenuItem quit;
 	    private Config config;
+	    private Executar executar;
 	    private ManipularArquivo mA;
 	    TelaConfiguracaoWindow telaConfig = null;
 	    TelaBuscaWindow telaBusca = null;
 	    File diretorio = new File(System.getProperty("user.home") + "\\dijkstra\\data");
 	    
 	    public Principal() {
+	    	new ThreadPrincipal();
+	    	
+	    	if(executar == null) {
+	    		executar = new Executar();
+	    		executar.setAtivo(true);
+	    		mA = new ManipularArquivo();
+	    		mA.inserirDado(executar);
+	    	}
 	    	
 			if (diretorio.exists()) {
 				buscarDadosConfig();
 			}
+			
+			if(executar.getAtivo()) {
+				System.out.println("PROGRAMA EM EXECUÇÃO");
+			
 	    	
 	    	PopupMenu menu = new PopupMenu("Menu");
 	        MenuItem menuConf = new MenuItem("Configuração");
@@ -96,6 +110,8 @@ import br.com.dijkstra.model.Config;
 	        
 	        quitItem.addActionListener(new ActionListener() {
 	            public void actionPerformed(ActionEvent evt) {
+	            	executar.setAtivo(false);
+	            	mA.inserirDado(executar);
 	                System.exit(0);
 	        }});
 	        
@@ -132,6 +148,7 @@ import br.com.dijkstra.model.Config;
 	        ti.displayMessage("Informações", "O dijkstra está sendo executado em segundo plano, clique aqui para alterar configurações", TrayIcon.MessageType.INFO);
 	        
 	        diretorioVerificar();
+			}
 	    }
 	    
 	    private void diretorioVerificar() {
@@ -147,6 +164,7 @@ import br.com.dijkstra.model.Config;
 			mA = new ManipularArquivo();
 			try{
 				config = mA.recuperarDadosConfig(System.getProperty("user.home") + "\\dijkstra\\data\\config.txt");
+				executar = mA.recuperarDadosExecutar(System.getProperty("user.home") + "\\dijkstra\\data\\ativar.txt");
 			}catch(Exception e) {
 				e.printStackTrace();
 			}
@@ -156,6 +174,5 @@ import br.com.dijkstra.model.Config;
     	new Principal();
     	//Para teste:
     	//new TelaBuscaWindow().setVisible(true);
-    	new ThreadPrincipal();
 	}
 }

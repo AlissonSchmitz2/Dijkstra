@@ -42,7 +42,6 @@ public class Config {
 		this.CaminhoErro = caminhoErro;
 	}
 	
-	
 	public Boolean getCheck() {
 		return check;
 	}

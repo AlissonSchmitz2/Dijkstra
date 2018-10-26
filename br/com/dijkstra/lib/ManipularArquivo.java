@@ -12,18 +12,21 @@ import java.util.ArrayList;
 
 import br.com.dijkstra.model.CaminhoManual;
 import br.com.dijkstra.model.Config;
+import br.com.dijkstra.model.Executar;
 
 public class ManipularArquivo {
 
 	private static String CONFIG_PATH = System.getProperty("user.home") + "\\dijkstra\\data\\config.txt";
 	private static String ROTASMANUAIS_PATH = System.getProperty("user.home") + "\\dijkstra\\data";
-
+	private static String ATIVAR_PATH = System.getProperty("user.home") + "\\dijkstra\\data\\ativar.txt";
+	
 	private static String SEPARATOR = ";;;";
 
 	private boolean importouTXT = false;
 
 	private BufferedReader lerArq;
 	private Config config = new Config();
+	private Executar executar = new Executar();
 
 	public ManipularArquivo() {
 		criarArquivo();
@@ -47,6 +50,10 @@ public class ManipularArquivo {
 		return config.getCaminhoPasta() + SEPARATOR + config.getCaminhoSucesso() + SEPARATOR + config.getCaminhoErro()
 				+ SEPARATOR + config.getCheck();
 	}
+	
+	private String criarStringDados(Executar executar) {
+		return executar.getAtivo() + SEPARATOR;
+	}
 
 	private String criarStringDados(CaminhoManual CM) {
 		return CM.getCodigoOrigem() + SEPARATOR + CM.getCidadeOrigem() + SEPARATOR + CM.getCodigoDestino() + SEPARATOR
@@ -58,6 +65,13 @@ public class ManipularArquivo {
 		String novosDados = criarStringDados(config);
 
 		inserirDadosNoArquivo("config", novosDados);
+	}
+	
+	public void inserirDado(Executar executar) {
+
+		String novosDados = criarStringDados(executar);
+
+		inserirDadosNoArquivo("ativar", novosDados);
 	}
 
 	public void inserirDado(ArrayList<CaminhoManual> CM, String nomeArquivo, boolean importouTXT) {
@@ -210,6 +224,31 @@ public class ManipularArquivo {
 
 		return null;
 	}
+	
+	public Executar recuperarDadosExecutar(String destinoTXT) {
+
+		try {
+			FileReader arq = new FileReader(destinoTXT);
+			lerArq = new BufferedReader(arq);
+			String linha = lerArq.readLine();
+
+			while (linha != null) {
+
+				String[] atributo = linha.split(SEPARATOR);
+
+				executar = criarExecutaApartirAtributos(atributo);
+
+				linha = lerArq.readLine();
+			}
+
+			return executar;
+
+		} catch (IOException e) {
+			System.err.printf("Seguinte arquivo não está criado: %s.\n", e.getMessage());
+		}
+
+		return null;
+	}
 
 	private Config criarConfigManualApartirAtributos(String[] atributos) {
 		Config config = new Config();
@@ -220,6 +259,14 @@ public class ManipularArquivo {
 		config.setCheck(atributos[3].equals("false") ? false : true);
 
 		return config;
+	}
+	
+	private Executar criarExecutaApartirAtributos(String[] atributos) {
+		Executar executar = new Executar();
+
+		executar.setAtivo(atributos[0].equals("false") ? false : true);
+		
+		return executar;
 	}
 
 	// Verifica se o nome do arquivo a ser salvo já existe no diretório.
@@ -263,6 +310,8 @@ public class ManipularArquivo {
 			return new File(CONFIG_PATH).getAbsolutePath();
 		case "rotasManuais":
 			return new File(ROTASMANUAIS_PATH + nomeArquivoRotas).getAbsolutePath();
+		case "ativar":
+			return new File(ATIVAR_PATH).getAbsolutePath();
 		}
 
 		return null;
