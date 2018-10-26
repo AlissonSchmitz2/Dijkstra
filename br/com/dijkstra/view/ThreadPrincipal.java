@@ -54,7 +54,7 @@ public class ThreadPrincipal {
 								File arquivosDiretorio = new File(config.getCaminhoPasta());
 								final File[] listaArquivos;
 								listaArquivos = arquivosDiretorio.listFiles();
-								
+
 								// COLOCAR DENTRO DA THREAD
 
 								for (i = 0; i < listaArquivos.length; i++) {
@@ -103,12 +103,12 @@ public class ThreadPrincipal {
 
 	private void arquivoNaPasta(ArrayList<CaminhoManual> listCM, final String nomeArquivo) throws IOException {
 
-		//Executando Dijkstra.
+		// Executando Dijkstra.
 		Grafo grafo = new Grafo();
 		System.out.println(listCM.size());
 
 		grafo.montarGrafo(listCM);
-
+		
 		int qtdVertices = grafo.getVertices().size();
 		int qtdAresta = grafo.getVertices().get(qtdVertices - 1).getAresta().size();
 		int codigoFinal = grafo.getVertices().get(qtdVertices - 1).getAresta().get(qtdAresta - 1).getCodDestino();
@@ -116,28 +116,19 @@ public class ThreadPrincipal {
 		int codigoInicio = listCM.get(0).getCodigoOrigem();
 		System.out.println(qtdVertices);
 
-		Dijkstra djk = new Dijkstra(grafo, codigoInicio, codigoFinal, true);
-		String mensagem = djk.mostrarMenorCaminho(true);
-		
-		//NOME DO ARQUIVO
-		System.out.println(nomeArquivo);
-		//ESCREVENDO MENSAGEM NO ARQUIVO
-		FileWriter arq = new FileWriter(new File(config.getCaminhoPasta() + "\\" + nomeArquivo), true);
-		PrintWriter gravarArq = new PrintWriter(arq);
-		gravarArq.println(mensagem); 
-		arq.close();
-
-		//MOVENDO ARQUIVO
+		Dijkstra djk;
 		moveArquivo cop = new moveArquivo();
-		if(true) {
-		cop.moveFile(config.getCaminhoPasta(), nomeArquivo, config.getCaminhoSucesso());
-		}else {
-		cop.moveFile(config.getCaminhoPasta(), nomeArquivo, config.getCaminhoErro());
+		try {
+			djk = new Dijkstra(grafo, codigoInicio, codigoFinal, true);
+			String mensagem = djk.mostrarMenorCaminho(true);
+			mA.inserirCaminhoNoArquivo(nomeArquivo, mensagem);
+			cop.moveFile(config.getCaminhoPasta(), nomeArquivo, config.getCaminhoSucesso());
+		} catch (Exception e) {
+			String mensagem = e.getMessage();
+			mA.inserirCaminhoNoArquivo(nomeArquivo, mensagem);
+			cop.moveFile(config.getCaminhoPasta(), nomeArquivo, config.getCaminhoErro());
 		}
-		
-		
-		
-		
+
 	}
 
 }

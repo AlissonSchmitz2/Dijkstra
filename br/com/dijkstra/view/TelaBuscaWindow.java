@@ -298,16 +298,15 @@ public class TelaBuscaWindow extends JFrame {
 					if(codOrigin < 0 || codDestino < 0) {
 						JOptionPane.showMessageDialog(null, "Código informado não pode ser negativo!");
 					}
-					
-					
-						try {
-							grafo = new Grafo();
-							grafo.montarGrafo(listCM);
-						} catch (Exception e1) {
-							e1.printStackTrace();
-						}
-					
-					new Dijkstra(grafo, codOrigin, codDestino, false);
+										
+					grafo = new Grafo();
+				    grafo.montarGrafo(listCM);
+									    
+					try {
+						new Dijkstra(grafo, codOrigin, codDestino, false);
+					} catch (Exception e1) {
+						e1.printStackTrace();
+					}
 				
 				}
 			});

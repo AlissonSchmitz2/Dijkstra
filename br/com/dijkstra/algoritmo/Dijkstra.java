@@ -1,4 +1,5 @@
 package br.com.dijkstra.algoritmo;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -50,16 +51,14 @@ public class Dijkstra {
 
 	}
 
-	public Dijkstra(Grafo grafo, int codOrigin, int codDestino, boolean verificaRota) {
+	public Dijkstra(Grafo grafo, int codOrigin, int codDestino, boolean verificaRota) throws Exception {
 		Dijkstra.grafo = grafo;
 		this.codOrigin = codOrigin;
 		this.codDestino = codDestino;
 		this.verificaRota = verificaRota;
-		try {
-			encontrarMenorCaminho();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+
+		encontrarMenorCaminho();
+
 	}
 
 	public void encontrarMenorCaminho() throws Exception {
@@ -203,9 +202,10 @@ public class Dijkstra {
 		}
 
 		if (verificaRota) {
-			
-			//DadosTxt dados;
-			//dados.setDados("Menor Caminho: " + res + destino + "\nDistância total: " + distancia + "KM");
+
+			// DadosTxt dados;
+			// dados.setDados("Menor Caminho: " + res + destino + "\nDistância total: " +
+			// distancia + "KM");
 			return "\n\nMenor Caminho: " + res + destino + "\n\n\nDistância total: " + distancia + "KM";
 		}
 
@@ -220,5 +220,5 @@ public class Dijkstra {
 		HashMap<Integer, String> mapa = map;
 		return mapa.get(codigoCidade);
 	}
-	
-}	
+
+}
