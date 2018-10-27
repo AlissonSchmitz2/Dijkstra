@@ -49,7 +49,7 @@ public class TelaConfiguracaoWindow extends JFrame {
 		Image imagemTitulo = Toolkit.getDefaultToolkit().getImage(getClass().getResource("/br/com/dijkstra/icons/config2.png"));
 		this.setIconImage(imagemTitulo);
 		
-		File diretorio = new File(System.getProperty("user.home") + "\\dijkstra\\data");
+		File diretorio = new File(System.getProperty("user.home") + "\\dijkstra\\data\\config.txt");
 		
 		if(diretorio.exists()) {
 			aM = new ManipularArquivo();
