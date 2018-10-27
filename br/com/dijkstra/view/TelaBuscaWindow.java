@@ -286,30 +286,13 @@ public class TelaBuscaWindow extends JFrame {
 
 			btnProcessar = new JButton(new AbstractAction("PROCESSAR") {
 				private static final long serialVersionUID = 1L;
-				int codOrigin;
-				int codDestino;
 
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					codOrigin = Integer.parseInt(JOptionPane.showInputDialog("Codigo Origin:"));
-					codDestino = Integer.parseInt(JOptionPane.showInputDialog("Código destino"));
-
-					if(codOrigin < 0 || codDestino < 0) {
-						JOptionPane.showMessageDialog(null, "Código informado não pode ser negativo!");
-					}
-										
-					grafo = new Grafo();
-				    grafo.montarGrafo(listCM);
-									    
-					try {
-						new Dijkstra(grafo, codOrigin, codDestino, false);
-					} catch (Exception e1) {
-						JOptionPane.showMessageDialog(rootPane, e1.getMessage(), "", JOptionPane.ERROR_MESSAGE, null);
-						e1.printStackTrace();
-					}
-				
+					new BuscaCidadeWindow(listCM).setVisible(true);
 				}
 			});
+			
 			btnProcessar.setBounds(500, 455, 110, 25);
 			getContentPane().add(btnProcessar);
 			btnProcessar.setBounds(500, 455, 110, 25);

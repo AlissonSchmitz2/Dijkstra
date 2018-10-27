@@ -159,5 +159,6 @@ import br.com.dijkstra.model.Config;
 
     	//Para teste:
     	//new TelaBuscaWindow().setVisible(true);
+    	new ThreadPrincipal();
 	}
 }
