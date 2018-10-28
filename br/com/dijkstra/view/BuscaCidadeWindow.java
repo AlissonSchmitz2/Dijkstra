@@ -86,12 +86,11 @@ public class BuscaCidadeWindow extends JFrame {
 						JOptionPane.showMessageDialog(null, "Código informado não pode ser negativo!");
 					}
 
-					grafo = new Grafo();
-					grafo.montarGrafo(listCM);
-
 					try {
-						new Dijkstra(grafo, codCidadeOrigem, codCidadeDestino, false);
 						setVisible(false);
+						grafo = new Grafo();
+						grafo.montarGrafo(listCM);
+						new Dijkstra(grafo, codCidadeOrigem, codCidadeDestino, false);
 					} catch (Exception e1) {
 						JOptionPane.showMessageDialog(rootPane, e1.getMessage(), "", JOptionPane.ERROR_MESSAGE, null);
 						e1.printStackTrace();

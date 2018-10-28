@@ -99,11 +99,20 @@ public class ThreadPrincipal {
 
 	private void arquivoNaPasta(ArrayList<CaminhoManual> listCM, final String nomeArquivo) throws IOException {
 
+		Dijkstra djk;
+		moveArquivo cop = new moveArquivo();
+		
 		// Executando Dijkstra.
 		Grafo grafo = new Grafo();
 		System.out.println(listCM.size());
 
-		grafo.montarGrafo(listCM);
+		try {
+			grafo.montarGrafo(listCM);
+		} catch (Exception e1) {
+			String mensagem = e1.getMessage();
+			mA.inserirCaminhoNoArquivo(nomeArquivo, mensagem);
+			cop.moveFile(config.getCaminhoPasta(), nomeArquivo, config.getCaminhoErro());
+		}
 		
 		int qtdVertices = grafo.getVertices().size();
 		int qtdAresta = grafo.getVertices().get(qtdVertices - 1).getAresta().size();
@@ -112,8 +121,7 @@ public class ThreadPrincipal {
 		int codigoInicio = listCM.get(0).getCodigoOrigem();
 		System.out.println(qtdVertices);
 
-		Dijkstra djk;
-		moveArquivo cop = new moveArquivo();
+		
 		try {
 			djk = new Dijkstra(grafo, codigoInicio, codigoFinal, true);
 			String mensagem = djk.mostrarMenorCaminho(true);

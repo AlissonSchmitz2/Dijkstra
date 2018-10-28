@@ -65,7 +65,8 @@ public class Dijkstra {
 		// Inicializar rota inicial com distância zero
 
 		verticeInicial = pegarIndiceVertice(codOrigin, grafo, false);
-		grafo.getVertices().get(verticeInicial).setDistancia(0);
+		System.out.println(verticeInicial);
+		grafo.getVertices().get(0).setDistancia(0);
 
 		for (int i = 0; i < grafo.getVertices().size(); i++) {
 			// Adiciona todos os vertices aos não visitados
@@ -193,9 +194,10 @@ public class Dijkstra {
 		int codigoDestino = pegarIndiceVertice(codDestino, vertices);
 		int codigoInicio = pegarIndiceVertice(codOrigin, vertices);
 
-		float distancia = vertices.get(codigoDestino).getDistancia();
+		float distancia = 0;
 		String res = "";
 		while (codigoDestino != codigoInicio) {
+			distancia += vertices.get(codigoDestino).getDistancia() - vertices.get(codigoDestino).getPai().getDistancia();
 			res = pegaCidadeReferenteAoCodigo(vertices.get(codigoDestino).getPai().getCodigo()) + ", " + res;
 			codigoDestino = pegarIndiceVertice(vertices.get(codigoDestino).getPai().getCodigo(), vertices);
 		}
@@ -211,7 +213,7 @@ public class Dijkstra {
 		JOptionPane.showMessageDialog(null,
 				"Menor Caminho: " + res + destino + "\nDistância total: " + distancia + "KM");
 
-		return "";
+		return "\n\nMenor Caminho: " + res + destino + "\n\n\nDistância total: " + distancia + "KM";
 
 	}
 

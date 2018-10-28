@@ -158,6 +158,6 @@ import br.com.dijkstra.model.Config;
     	new Principal();
 
     	//Para teste:
-    	// new TelaBuscaWindow().setVisible(true);
+    	//new TelaBuscaWindow().setVisible(true);
 	}
 }
