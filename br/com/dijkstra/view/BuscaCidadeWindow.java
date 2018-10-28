@@ -50,7 +50,7 @@ public class BuscaCidadeWindow extends JFrame {
 	}
 
 	public void criarComponentes() {
-		label = new JLabel("Cidade Origin: ");
+		label = new JLabel("Cidade Origem: ");
 		label.setBounds(10, 10, 120, 45);
 		getContentPane().add(label);
 
