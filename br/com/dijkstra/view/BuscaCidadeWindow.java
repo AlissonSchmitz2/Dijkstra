@@ -75,25 +75,29 @@ public class BuscaCidadeWindow extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				int codCidadeOrigem = pegarCodigoPorNomeCidade(cbxCidadeOrigem.getSelectedItem().toString());
-				int codCidadeDestino = pegarCodigoPorNomeCidade(cbxCidadeDestino.getSelectedItem().toString());
+				if (verificarCamposObrigatorios()) {
+					JOptionPane.showMessageDialog(rootPane, "Informe todos os campos para iniciar o caminho!", "",
+							JOptionPane.ERROR_MESSAGE, null);
+				} else {
+					int codCidadeOrigem = pegarCodigoPorNomeCidade(cbxCidadeOrigem.getSelectedItem().toString());
+					int codCidadeDestino = pegarCodigoPorNomeCidade(cbxCidadeDestino.getSelectedItem().toString());
 
-				if (codCidadeOrigem < 0 || codCidadeDestino < 0) {
-					JOptionPane.showMessageDialog(null, "Código informado não pode ser negativo!");
+					if (codCidadeOrigem < 0 || codCidadeDestino < 0) {
+						JOptionPane.showMessageDialog(null, "Código informado não pode ser negativo!");
+					}
+
+					grafo = new Grafo();
+					grafo.montarGrafo(listCM);
+
+					try {
+						new Dijkstra(grafo, codCidadeOrigem, codCidadeDestino, false);
+						setVisible(false);
+					} catch (Exception e1) {
+						JOptionPane.showMessageDialog(rootPane, e1.getMessage(), "", JOptionPane.ERROR_MESSAGE, null);
+						e1.printStackTrace();
+						setVisible(false);
+					}
 				}
-
-				grafo = new Grafo();
-				grafo.montarGrafo(listCM);
-
-				try {
-					new Dijkstra(grafo, codCidadeOrigem, codCidadeDestino, false);
-					setVisible(false);
-				} catch (Exception e1) {
-					JOptionPane.showMessageDialog(rootPane, e1.getMessage(), "", JOptionPane.ERROR_MESSAGE, null);
-					e1.printStackTrace();
-					setVisible(false);
-				}
-				
 			}
 		});
 
@@ -104,13 +108,13 @@ public class BuscaCidadeWindow extends JFrame {
 
 	public int pegarCodigoPorNomeCidade(String cidade) {
 		for (int i = 0; i < listCM.size(); i++) {
-			
-			if (listCM.get(i).getCidadeOrigem().equals(cidade)) {			
+
+			if (listCM.get(i).getCidadeOrigem().equals(cidade)) {
 				return listCM.get(i).getCodigoOrigem();
 			} else if (listCM.get(i).getCidadeDestino().equals(cidade)) {
 				return listCM.get(i).getCodigoDestino();
 			}
-			
+
 		}
 		return -1;
 	}
@@ -121,5 +125,13 @@ public class BuscaCidadeWindow extends JFrame {
 
 	private List<String> opcoesCidadeDestino(List<CaminhoManual> cidades) {
 		return cidades.stream().map(cidade -> cidade.getCidadeDestino()).distinct().collect(Collectors.toList());
+	}
+
+	public boolean verificarCamposObrigatorios() {
+		if (cbxCidadeOrigem.getSelectedItem().equals("-Selecione-")
+				|| cbxCidadeDestino.getSelectedItem().equals("-Selecione-")) {
+			return true;
+		}
+		return false;
 	}
 }

@@ -40,7 +40,7 @@ public class Dijkstra {
 	float menorPeso = 9999;
 	int posMenorVertice = 0;
 	int menorIndice = 0;
-
+	
 	private static Grafo grafo = null;
 	private int codOrigin;
 	private int codDestino;
