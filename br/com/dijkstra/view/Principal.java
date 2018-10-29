@@ -8,7 +8,10 @@ import java.awt.Toolkit;
 import java.awt.TrayIcon;
 import java.awt.event.*;
 import java.io.File;
+import java.io.IOException;
+
 import javax.swing.*;
+
 import br.com.dijkstra.lib.ManipularArquivo;
 import br.com.dijkstra.model.Config;
 
@@ -154,10 +157,22 @@ import br.com.dijkstra.model.Config;
 			}
 		}
 	    
-    public static void main(String[] args){
-    	new Principal();
+    public static void main(String[] args) throws IOException{
+    	
+        File ativo = new File("ativo");
 
+        if (!ativo.exists()) {
+        	ativo.createNewFile();
+            new Principal();
+        } else {
+            JOptionPane.showMessageDialog(null, "O Dijkstra já está sendo executado!", "Alerta", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+    	
+        ativo.deleteOnExit();
+        
     	//Para teste:
     	//new TelaBuscaWindow().setVisible(true);
 	}
+
 }
