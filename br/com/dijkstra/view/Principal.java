@@ -163,7 +163,7 @@ import br.com.dijkstra.model.Config;
 
         if (!ativo.exists()) {
         	ativo.createNewFile();
-            new Principal();
+           // new Principal();
         } else {
             JOptionPane.showMessageDialog(null, "O Dijkstra já está sendo executado!", "Alerta", JOptionPane.WARNING_MESSAGE);
             return;
@@ -172,7 +172,7 @@ import br.com.dijkstra.model.Config;
         ativo.deleteOnExit();
         
     	//Para teste:
-    	//new TelaBuscaWindow().setVisible(true);
+    	new TelaBuscaWindow().setVisible(true);
 	}
 
 }
