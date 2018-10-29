@@ -1,5 +1,7 @@
 package br.com.dijkstra.view;
 
+import java.awt.Image;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,9 +21,6 @@ import br.com.dijkstra.model.CaminhoManual;
 
 public class BuscaCidadeWindow extends JFrame {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 
 	private JComboBox<String> cbxCidadeOrigem;
@@ -47,6 +46,10 @@ public class BuscaCidadeWindow extends JFrame {
 		criarComponentes();
 		setVisible(true);
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+		
+		Image imagemTitulo = Toolkit.getDefaultToolkit()
+				.getImage(getClass().getResource("/br/com/dijkstra/icons/busca.png"));
+		this.setIconImage(imagemTitulo);
 	}
 
 	public void criarComponentes() {

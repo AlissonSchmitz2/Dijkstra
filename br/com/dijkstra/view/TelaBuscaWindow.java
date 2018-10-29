@@ -70,7 +70,6 @@ public class TelaBuscaWindow extends JFrame {
 		Image imagemTitulo = Toolkit.getDefaultToolkit()
 				.getImage(getClass().getResource("/br/com/dijkstra/icons/busca.png"));
 		this.setIconImage(imagemTitulo);
-
 	}
 
 	public void criarComponentes() {
