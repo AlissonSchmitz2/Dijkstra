@@ -5,6 +5,8 @@ import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map.Entry;
@@ -40,6 +42,7 @@ public class TelaBuscaWindow extends JFrame {
 	ManipularArquivo mA = new ManipularArquivo();
 	private boolean importouTXT = false;
 	private HashMap<Integer, String> caminhosAdicionados = new HashMap<>();
+	BuscaCidadeWindow buscarCidade = null;
 
 	KeyAdapter acao = new KeyAdapter() {
 		@Override
@@ -293,7 +296,18 @@ public class TelaBuscaWindow extends JFrame {
 				JOptionPane.showMessageDialog(rootPane, "Cadastre ao menos um caminho!", "",
 							JOptionPane.ERROR_MESSAGE, null);
 				} else {
-					new BuscaCidadeWindow(listCM).setVisible(true);
+					if(buscarCidade == null) {
+						buscarCidade = new BuscaCidadeWindow(listCM);
+						buscarCidade.addWindowListener(new WindowAdapter() {
+							public void windowClosing(WindowEvent evt) {
+								buscarCidade = null;
+							}
+						});	
+					}else {
+						buscarCidade.requestFocus();
+						buscarCidade.setFocusable(true);
+						buscarCidade.setExtendedState(JFrame.NORMAL);
+					}
 				}
 			}
 		});
