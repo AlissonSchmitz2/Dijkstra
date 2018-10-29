@@ -159,11 +159,11 @@ import br.com.dijkstra.model.Config;
 	    
     public static void main(String[] args) throws IOException{
     	
-        File ativo = new File("ativo");
+        File ativo = new File(System.getProperty("user.home") + "\\dijkstra\\data\\ativo");
 
         if (!ativo.exists()) {
         	ativo.createNewFile();
-           // new Principal();
+           new Principal();
         } else {
             JOptionPane.showMessageDialog(null, "O Dijkstra já está sendo executado!", "Alerta", JOptionPane.WARNING_MESSAGE);
             return;
@@ -172,7 +172,7 @@ import br.com.dijkstra.model.Config;
         ativo.deleteOnExit();
         
     	//Para teste:
-    	new TelaBuscaWindow().setVisible(true);
+    	//new TelaBuscaWindow().setVisible(true);
 	}
 
 }
