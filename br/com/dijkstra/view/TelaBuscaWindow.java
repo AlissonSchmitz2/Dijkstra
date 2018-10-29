@@ -21,7 +21,6 @@ import javax.swing.JTextField;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.TableModel;
 
-import br.com.dijkstra.algoritmo.Dijkstra;
 import br.com.dijkstra.grafo.Grafo;
 import br.com.dijkstra.lib.ManipularArquivo;
 import br.com.dijkstra.model.CaminhoManual;

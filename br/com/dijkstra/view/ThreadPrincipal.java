@@ -100,7 +100,7 @@ public class ThreadPrincipal {
 	private void arquivoNaPasta(ArrayList<CaminhoManual> listCM, final String nomeArquivo) throws IOException {
 
 		Dijkstra djk;
-		moveArquivo cop = new moveArquivo();
+		MoverArquivo cop = new MoverArquivo();
 		
 		// Executando Dijkstra.
 		Grafo grafo = new Grafo();

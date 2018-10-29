@@ -2,9 +2,9 @@ package br.com.dijkstra.lib;
 
 import java.io.File;
 
-public class moveArquivo{
+public class MoverArquivo{
 	
-	public moveArquivo() {
+	public MoverArquivo() {
 	}
 	
 	public boolean moveFile(String pastaPrincipal, String nomeArquivo, String pastaCopia) {
