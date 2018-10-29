@@ -90,7 +90,7 @@ public class BuscaCidadeWindow extends JFrame {
 					}
 
 					try {
-						setVisible(false);
+						dispose();
 						grafo = new Grafo();
 						grafo.montarGrafo(listCM);
 						new Dijkstra(grafo, codCidadeOrigem, codCidadeDestino, false);

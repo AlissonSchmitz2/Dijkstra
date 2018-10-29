@@ -47,7 +47,6 @@ public class Dijkstra {
 	private boolean verificaRota;
 
 	public Dijkstra() {
-
 	}
 
 	public Dijkstra(Grafo grafo, int codOrigin, int codDestino, boolean verificaRota) throws Exception {
@@ -203,10 +202,6 @@ public class Dijkstra {
 		}
 
 		if (verificaRota) {
-
-			// DadosTxt dados;
-			// dados.setDados("Menor Caminho: " + res + destino + "\nDistância total: " +
-			// distancia + "KM");
 			return "\n\nMenor Caminho: " + res + destino + "\n\n\nDistância total: " + distancia + "KM";
 		}
 

@@ -299,11 +299,11 @@ public class TelaBuscaWindow extends JFrame {
 					if(buscarCidade == null) {
 						buscarCidade = new BuscaCidadeWindow(listCM);
 						buscarCidade.addWindowListener(new WindowAdapter() {
-							public void windowClosing(WindowEvent evt) {
+							public void windowClosed(WindowEvent evt) {
 								buscarCidade = null;
 							}
 						});	
-					}else {
+					}else{
 						buscarCidade.requestFocus();
 						buscarCidade.setFocusable(true);
 						buscarCidade.setExtendedState(JFrame.NORMAL);
