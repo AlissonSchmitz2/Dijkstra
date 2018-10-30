@@ -15,7 +15,6 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
 import br.com.dijkstra.algoritmo.Dijkstra;
-import br.com.dijkstra.draw.DesenharGrafo;
 import br.com.dijkstra.grafo.Grafo;
 import br.com.dijkstra.lib.ManipularArquivo;
 import br.com.dijkstra.lib.MoverArquivo;
