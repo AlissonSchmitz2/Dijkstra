@@ -79,7 +79,7 @@ public class Grafo {
 		}
 
 		inserirChaveValor(vertice);
-
+		percorrerGrafo();
 	}
 
 	public void inserirChaveValor(List<Vertice> v) throws Exception {
@@ -145,6 +145,11 @@ public class Grafo {
 		}
 
 		return null;
-
+	}
+	
+	public void percorrerGrafo() {
+		for(int i = 0;i<vertice.size();i++) {
+			System.out.println(vertice.get(i).getAresta().get(0).getCidade());
+		}
 	}
 }

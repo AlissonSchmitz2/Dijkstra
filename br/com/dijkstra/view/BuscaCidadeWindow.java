@@ -15,6 +15,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
 import br.com.dijkstra.algoritmo.Dijkstra;
+import br.com.dijkstra.draw.DesenharGrafo;
 import br.com.dijkstra.grafo.Grafo;
 import br.com.dijkstra.lib.ManipularArquivo;
 import br.com.dijkstra.lib.MoverArquivo;
@@ -108,8 +109,11 @@ public class BuscaCidadeWindow extends JFrame {
 						cop.moveFile(destinoTxt, config.getCaminhoSucesso());
 						setVisible(false);
 					} catch (Exception e1) {
-						JOptionPane.showMessageDialog(rootPane, e1.getMessage(), "", JOptionPane.ERROR_MESSAGE, null);
 						String mensagem = e1.getMessage();
+						if(mensagem == null) {
+							mensagem = "Não foi possivel chegar ao seu destino";
+						}
+						JOptionPane.showMessageDialog(rootPane, mensagem, "", JOptionPane.ERROR_MESSAGE, null);
 						mA.inserirCaminhoNoArquivo(destinoTxt, mensagem, true);
 						cop.moveFile(destinoTxt, config.getCaminhoErro());
 						setVisible(false);
@@ -148,7 +152,7 @@ public class BuscaCidadeWindow extends JFrame {
 		if (cbxCidadeOrigem.getSelectedItem().equals("-Selecione-")
 				|| cbxCidadeDestino.getSelectedItem().equals("-Selecione-")) {
 			return true;
-		}
+		}									
 		return false;
 	}
 

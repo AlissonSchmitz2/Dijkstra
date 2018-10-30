@@ -38,12 +38,18 @@ public class TelaBuscaWindow extends JFrame {
 	private JScrollPane scrollpane;
 	private TableModel tableModel = new CaminhoManualTableModel();
 	private ArrayList<CaminhoManual> listCM = new ArrayList<>();
+	private ArrayList<CaminhoManual> listaAux = new ArrayList<>();
+
+	// Lista utilizada no caso de importação.
+	private ArrayList<CaminhoManual> listCmImportou = new ArrayList<>();
+
 	Grafo grafo;
 	ManipularArquivo mA = new ManipularArquivo();
 	private boolean importouTXT = false;
 	private HashMap<Integer, String> caminhosAdicionados = new HashMap<>();
 	BuscaCidadeWindow buscarCidade = null;
 	String nomeArquivo;
+	
 
 	KeyAdapter acao = new KeyAdapter() {
 		@Override
@@ -204,14 +210,20 @@ public class TelaBuscaWindow extends JFrame {
 
 					if (textBusca.getText().equals("") == false) {
 						importouTXT = true;
+						caminhosAdicionados.clear();
 						listCM.clear();
 						listCM = new ArrayList<>();
+						listCmImportou = new ArrayList<>();
 
-						listCM = mA.recuperarDados(textBusca.getText());
+						listCmImportou = mA.recuperarDados(textBusca.getText());
 						((CaminhoManualTableModel) tableModel).limpar();
 
-						for (int i = 0; i < listCM.size(); i++) {
-							((CaminhoManualTableModel) tableModel).addRow(listCM.get(i));
+						for (int i = 0; i < listCmImportou.size(); i++) {
+							caminhosAdicionados.put(listCmImportou.get(i).getCodigoOrigem(),
+									listCmImportou.get(i).getCidadeOrigem());
+							caminhosAdicionados.put(listCmImportou.get(i).getCodigoDestino(),
+									listCmImportou.get(i).getCidadeDestino());
+							((CaminhoManualTableModel) tableModel).addRow(listCmImportou.get(i));
 						}
 
 					}
@@ -232,56 +244,7 @@ public class TelaBuscaWindow extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-
-				if (listCM.isEmpty()) {
-					JOptionPane.showMessageDialog(rootPane,
-							"Não há nada para ser salvo ou nenhuma mudança foi realizada no arquivo!", "",
-							JOptionPane.ERROR_MESSAGE, null);
-				} else {
-
-					// Salva no mesmo arquivo oque foi adicionado após a importação.
-					if (importouTXT) {
-
-						nomeArquivo = textBusca.getText();
-						mA.inserirDado(listCM, nomeArquivo, true);
-						JOptionPane.showMessageDialog(null, "Arquivo salvo com sucesso!");
-						listCM.clear();
-
-						int limpar = JOptionPane.showConfirmDialog(null, "Deseja limpar a tabela?");
-
-						if (limpar == 0) {
-							((CaminhoManualTableModel) tableModel).limpar();
-						}
-
-					} else {
-
-						nomeArquivo = JOptionPane.showInputDialog(null, "Digite o nome do arquivo a ser salvo:");
-
-						if (mA.verificarNomeTxt(nomeArquivo + ".txt")) {
-
-							do {
-								JOptionPane.showMessageDialog(rootPane,
-										"Esse nome já existe no diretório. Por favor, digite outro nome.", "",
-										JOptionPane.ERROR_MESSAGE, null);
-								nomeArquivo = JOptionPane.showInputDialog(null,
-										"Digite o nome do arquivo a ser salvo:");
-							} while (mA.verificarNomeTxt(nomeArquivo + ".txt"));
-
-						}
-
-						if (nomeArquivo != null) {
-							mA.inserirDado(listCM, "\\" + nomeArquivo + ".txt", false);
-							JOptionPane.showMessageDialog(null, "Arquivo salvo com sucesso!");
-
-							int limpar = JOptionPane.showConfirmDialog(null, "Deseja limpar a tabela?");
-
-							if (limpar == 0) {
-								((CaminhoManualTableModel) tableModel).limpar();
-							}
-						}
-					}
-
-				}
+				salvarLista();
 			}
 		});
 		btnSalvar.setBounds(385, 455, 110, 25);
@@ -292,18 +255,32 @@ public class TelaBuscaWindow extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if (listCM.isEmpty()) {
-				JOptionPane.showMessageDialog(rootPane, "Cadastre ao menos um caminho!", "",
+				if (listCM.isEmpty() && importouTXT == false) {
+					JOptionPane.showMessageDialog(rootPane, "Cadastre ao menos um caminho!", "",
 							JOptionPane.ERROR_MESSAGE, null);
-				} else {
-					if(buscarCidade == null) {
-						buscarCidade = new BuscaCidadeWindow(listCM,nomeArquivo);
+				} else if (!importouTXT) {
+					if (buscarCidade == null) {
+						salvarLista();
+						buscarCidade = new BuscaCidadeWindow(listCM, nomeArquivo);
 						buscarCidade.addWindowListener(new WindowAdapter() {
 							public void windowClosed(WindowEvent evt) {
 								buscarCidade = null;
 							}
-						});	
-					}else{
+						});
+					} else {
+						buscarCidade.requestFocus();
+						buscarCidade.setFocusable(true);
+						buscarCidade.setExtendedState(JFrame.NORMAL);
+					}
+				} else {
+					if (buscarCidade == null) {
+						buscarCidade = new BuscaCidadeWindow(listCmImportou, nomeArquivo);
+						buscarCidade.addWindowListener(new WindowAdapter() {
+							public void windowClosed(WindowEvent evt) {
+								buscarCidade = null;
+							}
+						});
+					} else {
 						buscarCidade.requestFocus();
 						buscarCidade.setFocusable(true);
 						buscarCidade.setExtendedState(JFrame.NORMAL);
@@ -410,11 +387,37 @@ public class TelaBuscaWindow extends JFrame {
 		novaLinha = textCodOrigem.getText() + textCidadeOrigem.getText() + textCodDestino.getText()
 				+ textCidadeDestino.getText();
 
-		for (int i = 0; i < listCM.size(); i++) {
-			linhaExistente = listCM.get(i).getCodigoOrigem() + listCM.get(i).getCidadeOrigem()
-					+ listCM.get(i).getCodigoDestino() + listCM.get(i).getCidadeDestino();
-			if (linhaExistente.equals(novaLinha)) {
-				return true;
+		// Testa linha duplicada caso não haja importação.
+		if (!importouTXT) {
+			for (int i = 0; i < listCM.size(); i++) {
+				linhaExistente = listCM.get(i).getCodigoOrigem() + listCM.get(i).getCidadeOrigem()
+						+ listCM.get(i).getCodigoDestino() + listCM.get(i).getCidadeDestino();
+				if (linhaExistente.equals(novaLinha)) {
+					return true;
+				}
+			}
+		}
+		// Testa linha duplicada no caso de importação.
+		else {
+
+			// Testa linha duplicada baseando-se no que foi adicionado após a importação.
+			if (!listCM.isEmpty()) {
+				for (int i = 0; i < listCM.size(); i++) {
+					linhaExistente = listCM.get(i).getCodigoOrigem() + listCM.get(i).getCidadeOrigem()
+							+ listCM.get(i).getCodigoDestino() + listCM.get(i).getCidadeDestino();
+					if (linhaExistente.equals(novaLinha)) {
+						return true;
+					}
+				}
+			}
+
+			// Testa linha duplicada baseando-se no que foi importado originalmente.
+			for (int i = 0; i < listCmImportou.size(); i++) {
+				linhaExistente = listCmImportou.get(i).getCodigoOrigem() + listCmImportou.get(i).getCidadeOrigem()
+						+ listCmImportou.get(i).getCodigoDestino() + listCmImportou.get(i).getCidadeDestino();
+				if (linhaExistente.equals(novaLinha)) {
+					return true;
+				}
 			}
 		}
 
@@ -458,6 +461,67 @@ public class TelaBuscaWindow extends JFrame {
 	public void setFocusable(boolean focusable) {
 		super.setFocusable(focusable);
 		textBusca.requestFocus();
+	}
+
+	public void salvarLista() {
+		
+		if (listCM.isEmpty()) {
+			JOptionPane.showMessageDialog(rootPane,
+					"Não há nada para ser salvo ou nenhuma mudança foi realizada no arquivo!", "",
+					JOptionPane.ERROR_MESSAGE, null);
+		} else {
+
+			// Salva no mesmo arquivo oque foi adicionado após a importação.
+			if (importouTXT) {
+
+				nomeArquivo = textBusca.getText();
+				mA.inserirDado(listCM, nomeArquivo, true);
+				JOptionPane.showMessageDialog(null, "Arquivo salvo com sucesso!");
+				listCM.clear();
+				listCmImportou.clear();
+				caminhosAdicionados.clear();
+				importouTXT = false;
+
+				int limpar = JOptionPane.showConfirmDialog(null, "Deseja limpar a tabela?");
+
+				if (limpar == 0) {
+					((CaminhoManualTableModel) tableModel).limpar();
+				}
+
+			} else {
+
+				nomeArquivo = JOptionPane.showInputDialog(null, "Digite o nome do arquivo a ser salvo:");
+				
+				if (mA.verificarNomeTxt(nomeArquivo)) {
+
+					do {
+						JOptionPane.showMessageDialog(rootPane,
+								"Esse nome já existe no diretório. Por favor, digite outro nome.", "",
+								JOptionPane.ERROR_MESSAGE, null);
+						nomeArquivo = JOptionPane.showInputDialog(null, "Digite o nome do arquivo a ser salvo:");
+					} while (mA.verificarNomeTxt(nomeArquivo));
+
+				}
+				
+				nomeArquivo += ".txt";
+
+				if (nomeArquivo != null) {
+					mA.inserirDado(listCM, "\\" + nomeArquivo, false);
+					JOptionPane.showMessageDialog(null, "Arquivo salvo com sucesso!");
+					
+					//listaAux = (ArrayList<CaminhoManual>) listCM.clone();
+					//listCM.clear();
+					caminhosAdicionados.clear();
+
+					int limpar = JOptionPane.showConfirmDialog(null, "Deseja limpar a tabela?");
+
+					if (limpar == 0) {
+						((CaminhoManualTableModel) tableModel).limpar();
+					}
+				}
+			}
+
+		}
 	}
 
 }

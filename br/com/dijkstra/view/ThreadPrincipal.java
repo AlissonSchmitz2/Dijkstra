@@ -33,8 +33,7 @@ public class ThreadPrincipal {
 				public void run() {
 					try {
 						while (!Thread.currentThread().isInterrupted()) {
-							System.out.println("TESTANDO THREAD...");
-
+							
 							try {
 								Thread.sleep(500);
 							} catch (InterruptedException e) {
@@ -80,9 +79,8 @@ public class ThreadPrincipal {
 							}
 						}
 					} catch (Exception e) {
-						System.out.println("THREAD INTERROMPIDA");
+						e.printStackTrace();
 					}
-					System.out.println("THREAD PAROU");
 				}
 			}, "Teste.arquivosPastaPrincipal").start();
 		}
