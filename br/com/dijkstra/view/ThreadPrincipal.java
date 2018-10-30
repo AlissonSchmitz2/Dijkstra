@@ -102,37 +102,61 @@ public class ThreadPrincipal {
 		Dijkstra djk;
 		MoverArquivo cop = new MoverArquivo();
 		
+		//Verificando se o arquivo é válido
+		if(validarTxt(listCM) == "arquivo ok") {
 		// Executando Dijkstra.
-		Grafo grafo = new Grafo();
+			Grafo grafo = new Grafo();
+	
+			try {
+				grafo.montarGrafo(listCM);
+			} catch (Exception e1) {
+				String mensagem = e1.getMessage();
+				mA.inserirCaminhoNoArquivo(nomeArquivo, mensagem);
+				cop.moveFile(config.getCaminhoPasta(), nomeArquivo, config.getCaminhoErro());
+			}
+			
+			int qtdVertices = grafo.getVertices().size();
+			int qtdAresta = grafo.getVertices().get(qtdVertices - 1).getAresta().size();
+			int codigoFinal = grafo.getVertices().get(qtdVertices - 1).getAresta().get(qtdAresta - 1).getCodDestino();
+	
+			int codigoInicio = listCM.get(0).getCodigoOrigem();
+			
+			try {
+				djk = new Dijkstra(grafo, codigoInicio, codigoFinal, true);
+				String mensagem = djk.mostrarMenorCaminho(true);
+				mA.inserirCaminhoNoArquivo(nomeArquivo, mensagem);
+				cop.moveFile(config.getCaminhoPasta(), nomeArquivo, config.getCaminhoSucesso());
+			} catch (Exception e) {
+				String mensagem = e.getMessage();
+				mA.inserirCaminhoNoArquivo(nomeArquivo, mensagem);
+				cop.moveFile(config.getCaminhoPasta(), nomeArquivo, config.getCaminhoErro());
+			}
+		}else {
+			String mensagem = validarTxt(listCM);
+			mA.inserirCaminhoNoArquivo(nomeArquivo, mensagem);
+			cop.moveFile(config.getCaminhoPasta(), nomeArquivo, config.getCaminhoErro());
+		}
+
+	}
+
+	private String validarTxt(ArrayList<CaminhoManual> listCM) {
+		
+		if(listCM.size() == 0) {
+			return "Informações do arquivo estão inválidas!";
+		}
+		
 		System.out.println(listCM.size());
-
-		try {
-			grafo.montarGrafo(listCM);
-		} catch (Exception e1) {
-			String mensagem = e1.getMessage();
-			mA.inserirCaminhoNoArquivo(nomeArquivo, mensagem);
-			cop.moveFile(config.getCaminhoPasta(), nomeArquivo, config.getCaminhoErro());
-		}
 		
-		int qtdVertices = grafo.getVertices().size();
-		int qtdAresta = grafo.getVertices().get(qtdVertices - 1).getAresta().size();
-		int codigoFinal = grafo.getVertices().get(qtdVertices - 1).getAresta().get(qtdAresta - 1).getCodDestino();
-
-		int codigoInicio = listCM.get(0).getCodigoOrigem();
-		System.out.println(qtdVertices);
-
-		
-		try {
-			djk = new Dijkstra(grafo, codigoInicio, codigoFinal, true);
-			String mensagem = djk.mostrarMenorCaminho(true);
-			mA.inserirCaminhoNoArquivo(nomeArquivo, mensagem);
-			cop.moveFile(config.getCaminhoPasta(), nomeArquivo, config.getCaminhoSucesso());
-		} catch (Exception e) {
-			String mensagem = e.getMessage();
-			mA.inserirCaminhoNoArquivo(nomeArquivo, mensagem);
-			cop.moveFile(config.getCaminhoPasta(), nomeArquivo, config.getCaminhoErro());
+		for(i=0; i<listCM.size(); i++) {
+			if(listCM.get(i).getCidadeOrigem().equals("")) {
+				return "Cidade Origem não está no arquivo!";
+			}
+				if(listCM.get(i).getCidadeDestino().equals("")) {
+					return "Cidade Destino não está no arquivo!";
+				}
 		}
 
+		return "arquivo ok";
 	}
 
 }
