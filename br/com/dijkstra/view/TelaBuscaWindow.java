@@ -43,6 +43,7 @@ public class TelaBuscaWindow extends JFrame {
 	private boolean importouTXT = false;
 	private HashMap<Integer, String> caminhosAdicionados = new HashMap<>();
 	BuscaCidadeWindow buscarCidade = null;
+	String nomeArquivo;
 
 	KeyAdapter acao = new KeyAdapter() {
 		@Override
@@ -196,6 +197,7 @@ public class TelaBuscaWindow extends JFrame {
 
 				if ("".equals(textBusca.getText())) {
 					textBusca.setText(fileChooser());
+					nomeArquivo = textBusca.getText();
 				}
 
 				try {
@@ -236,8 +238,6 @@ public class TelaBuscaWindow extends JFrame {
 							"Não há nada para ser salvo ou nenhuma mudança foi realizada no arquivo!", "",
 							JOptionPane.ERROR_MESSAGE, null);
 				} else {
-
-					String nomeArquivo;
 
 					// Salva no mesmo arquivo oque foi adicionado após a importação.
 					if (importouTXT) {
@@ -297,7 +297,7 @@ public class TelaBuscaWindow extends JFrame {
 							JOptionPane.ERROR_MESSAGE, null);
 				} else {
 					if(buscarCidade == null) {
-						buscarCidade = new BuscaCidadeWindow(listCM);
+						buscarCidade = new BuscaCidadeWindow(listCM,nomeArquivo);
 						buscarCidade.addWindowListener(new WindowAdapter() {
 							public void windowClosed(WindowEvent evt) {
 								buscarCidade = null;

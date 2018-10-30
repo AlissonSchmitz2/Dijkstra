@@ -19,4 +19,17 @@ public class MoverArquivo{
 		
 		return moveu;
 	}
+	
+public boolean moveFile(String nomeArquivo, String pastaCopia) {
+		
+		boolean moveu = false;
+		
+		File arquivo = new File(nomeArquivo);
+		if (arquivo.exists()) {
+			File diretorioDestino = new File(pastaCopia);
+			moveu = arquivo.renameTo(new File(diretorioDestino, arquivo.getName()));
+		}
+		
+		return moveu;
+	}
 }

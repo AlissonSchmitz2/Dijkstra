@@ -122,8 +122,8 @@ public class ThreadPrincipal {
 			int codigoInicio = listCM.get(0).getCodigoOrigem();
 			
 			try {
-				djk = new Dijkstra(grafo, codigoInicio, codigoFinal, true);
-				String mensagem = djk.mostrarMenorCaminho(true);
+				djk = new Dijkstra(grafo, codigoInicio, codigoFinal);
+				String mensagem = djk.mostrarMenorCaminho();
 				mA.inserirCaminhoNoArquivo(nomeArquivo, mensagem);
 				cop.moveFile(config.getCaminhoPasta(), nomeArquivo, config.getCaminhoSucesso());
 			} catch (Exception e) {

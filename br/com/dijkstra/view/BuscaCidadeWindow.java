@@ -17,7 +17,9 @@ import javax.swing.JOptionPane;
 import br.com.dijkstra.algoritmo.Dijkstra;
 import br.com.dijkstra.grafo.Grafo;
 import br.com.dijkstra.lib.ManipularArquivo;
+import br.com.dijkstra.lib.MoverArquivo;
 import br.com.dijkstra.model.CaminhoManual;
+import br.com.dijkstra.model.Config;
 
 public class BuscaCidadeWindow extends JFrame {
 
@@ -30,13 +32,16 @@ public class BuscaCidadeWindow extends JFrame {
 	Grafo grafo;
 	ArrayList<CaminhoManual> listCM = new ArrayList<>();
 	ManipularArquivo mA = new ManipularArquivo();
+	Config config;
+	String destinoTxt = "";
 
 	public BuscaCidadeWindow() {
 
 	}
 
-	public BuscaCidadeWindow(ArrayList<CaminhoManual> listCM) {
+	public BuscaCidadeWindow(ArrayList<CaminhoManual> listCM, String destinoTxt) {
 		this.listCM = listCM;
+		this.destinoTxt = destinoTxt;
 		setTitle("Buscar cidades");
 		setSize(295, 200);
 		setResizable(false);
@@ -46,10 +51,11 @@ public class BuscaCidadeWindow extends JFrame {
 		criarComponentes();
 		setVisible(true);
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-		
+
 		Image imagemTitulo = Toolkit.getDefaultToolkit()
 				.getImage(getClass().getResource("/br/com/dijkstra/icons/busca.png"));
 		this.setIconImage(imagemTitulo);
+		buscarDadosConfig();
 	}
 
 	public void criarComponentes() {
@@ -75,6 +81,8 @@ public class BuscaCidadeWindow extends JFrame {
 
 		btnCaminho = new JButton(new AbstractAction("Iniciar caminho") {
 			private static final long serialVersionUID = 1L;
+			Dijkstra djk;
+			MoverArquivo cop = new MoverArquivo();
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -93,10 +101,17 @@ public class BuscaCidadeWindow extends JFrame {
 						dispose();
 						grafo = new Grafo();
 						grafo.montarGrafo(listCM);
-						new Dijkstra(grafo, codCidadeOrigem, codCidadeDestino, false);
+						djk = new Dijkstra(grafo, codCidadeOrigem, codCidadeDestino);
+						String mensagem = djk.mostrarMenorCaminho();
+						JOptionPane.showMessageDialog(null, mensagem);
+						mA.inserirCaminhoNoArquivo(destinoTxt, mensagem, true);
+						cop.moveFile(destinoTxt, config.getCaminhoSucesso());
+						setVisible(false);
 					} catch (Exception e1) {
 						JOptionPane.showMessageDialog(rootPane, e1.getMessage(), "", JOptionPane.ERROR_MESSAGE, null);
-						e1.printStackTrace();
+						String mensagem = e1.getMessage();
+						mA.inserirCaminhoNoArquivo(destinoTxt, mensagem, true);
+						cop.moveFile(destinoTxt, config.getCaminhoErro());
 						setVisible(false);
 					}
 				}
@@ -135,5 +150,14 @@ public class BuscaCidadeWindow extends JFrame {
 			return true;
 		}
 		return false;
+	}
+
+	private void buscarDadosConfig() {
+		mA = new ManipularArquivo();
+		try {
+			config = mA.recuperarDadosConfig(System.getProperty("user.home") + "\\dijkstra\\data\\config.txt");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 }

@@ -142,6 +142,21 @@ public class ManipularArquivo {
 		}
 
 	}
+	
+	public void inserirCaminhoNoArquivo(String nomeArquivo, String mensagem,boolean aux) {
+
+		FileWriter arq;
+		try {
+			arq = new FileWriter(new File(nomeArquivo), true);
+			PrintWriter gravarArq = new PrintWriter(arq);
+			gravarArq.println(mensagem);
+			arq.close();
+			gravarArq.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+	}
 
 	public ArrayList<CaminhoManual> recuperarDados(String destinoTXT) {
 
