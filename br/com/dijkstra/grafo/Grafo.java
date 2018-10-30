@@ -10,7 +10,7 @@ import br.com.dijkstra.model.CaminhoManual;
 public class Grafo {
 
 	private List<Vertice> vertice = new ArrayList<Vertice>();
-	private final int OO = Integer.MAX_VALUE;
+	private final int OO = 9999;
 
 	public List<Vertice> getVertices() {
 		return vertice;

@@ -158,7 +158,8 @@ import br.com.dijkstra.model.Config;
 		}
 	    
     public static void main(String[] args) throws IOException{
-    	
+    	//Para teste:
+    	new TelaBuscaWindow().setVisible(true);
         File ativo = new File(System.getProperty("user.home") + "\\dijkstra\\data\\ativo");
 
         if (!ativo.exists()) {
@@ -171,8 +172,7 @@ import br.com.dijkstra.model.Config;
     	
         ativo.deleteOnExit();
         
-    	//Para teste:
-    	//new TelaBuscaWindow().setVisible(true);
+    	
 	}
 
 }

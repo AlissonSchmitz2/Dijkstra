@@ -35,7 +35,7 @@ public class Dijkstra {
 	HashMap<Integer, String> map = new HashMap<Integer, String>();
 
 	int menorVertice = 9999;
-	float menorPeso = 9999;
+	float menorPeso = 99999;
 	int posMenorVertice = 0;
 	int menorIndice = 0;
 	
@@ -60,8 +60,7 @@ public class Dijkstra {
 		// Inicializar rota inicial com distância zero
 
 		verticeInicial = pegarIndiceVertice(codOrigin, grafo, false);
-		System.out.println(verticeInicial);
-		grafo.getVertices().get(0).setDistancia(0);
+		grafo.getVertices().get(verticeInicial).setDistancia(0);
 
 		for (int i = 0; i < grafo.getVertices().size(); i++) {
 			// Adiciona todos os vertices aos não visitados
@@ -81,7 +80,7 @@ public class Dijkstra {
 					posMenorVertice = i;
 				}
 			}
-
+				
 			// Atualiza indice de menorVertice de acordo com nova lista (vertices) a ser
 			// usada;
 			menorIndice = buscaMenorVertice(menorVertice);
@@ -136,12 +135,11 @@ public class Dijkstra {
 
 			// Inicializa os valores iniciais para uma nova busca;
 			menorVertice = 9999;
-			menorPeso = 9999;
+			menorPeso = 99999;
 
 		}
 
 		inserirChaveValor(vertices);
-		mostrarMenorCaminho();
 
 	}
 
@@ -167,13 +165,14 @@ public class Dijkstra {
 	}
 
 	public int buscaMenorVertice(int menorVertice) throws Exception {
+		
 		for (int i = 0; i < vertices.size(); i++) {
 			if (vertices.get(i).getCodigo() == menorVertice) {
 				return i;
 			}
 		}
 
-		throw new Exception("O código do vertice não foi encontrado");
+		throw new Exception("Não foi possível chegar a seu destino!");
 	}
 
 	public void inserirChaveValor(List<Vertice> v) {
